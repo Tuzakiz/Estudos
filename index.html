@@ -10,7 +10,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Orbitron:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <style>
+  <script>function buildFallbackDataUri(title, subtitle) {
+      const safeTitle = String(title || "Esquema de Estudo").replace(/[<>&"]/g, "");
+      const safeSub = String(subtitle || "Resumo visual do tópico").replace(/[<>&"]/g, "");
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" viewBox="0 0 640 320">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0d9488" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#0284c7" stop-opacity="0.22"/>
+          </linearGradient>
+        </defs>
+        <rect width="640" height="320" rx="18" fill="#f8fafc"/>
+        <rect x="14" y="14" width="612" height="292" rx="14" fill="url(#g)" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 6"/>
+        <text x="320" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="800" fill="#0f172a">${safeTitle}</text>
+        <text x="320" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#334155">${safeSub}</text>
+        <text x="320" y="218" text-anchor="middle" font-family="monospace" font-size="12" fill="#0d9488">Esquema ilustrativo offline • Clique para ampliar</text>
+      </svg>`;
+      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    }
+
+    function handleImgFallback(imgEl, title, subtitle) {
+      if (imgEl.dataset.fallbackApplied) return;
+      imgEl.dataset.fallbackApplied = "1";
+      imgEl.src = buildFallbackDataUri(title, subtitle);
+    }
+
+    /* =====================================================================
+       ESTADO GLOBAL & PERSISTÊNCIA
+       ===================================================================== */
+    </script>
+<style>
     /* =====================================================================
        1. TOKENS DE CORES / PALETAS + FONTES
        ===================================================================== */
@@ -2323,7 +2352,20 @@
     :root[data-art="bauhaus-poster"][data-palette="escuro"]  { --bg:#111; --surface:#1a1a1a; --text:#f5f5f5; }
 
   </style>
-</head>
+<style>.bl{display:flex;flex-wrap:wrap;gap:.6rem;margin:.8rem 0;min-height:60px}.bw{text-align:center;max-width:120px}.blk{display:inline-block;padding:.5rem .8rem;border-radius:12px;color:#fff;font-weight:800;opacity:0;transform:translateY(-18px);transition:.4s}.blk.in{opacity:1;transform:none}.tg{font-size:.68rem;font-weight:700;color:var(--muted);margin-top:.25rem}.zone{display:flex;flex-wrap:wrap;gap:.5rem;min-height:56px;padding:.6rem;margin:.6rem 0;border-radius:14px}.chip{cursor:pointer;background:var(--primary);color:var(--on-primary)}.ray{stroke-dasharray:7 5;animation:fl 1s linear infinite}@keyframes fl{to{stroke-dashoffset:-24}}</style><style>.nb2{font-size:.7rem;font-weight:800;color:var(--primary);margin-bottom:.15rem}.bw{opacity:0;transform:translateY(10px);transition:.4s}.bw.in{opacity:1;transform:none}.bw .blk{opacity:1;transform:none}
+.slots{display:flex;flex-wrap:wrap;gap:.7rem;margin:1rem 0;align-items:flex-end}.sl{display:flex;flex-direction:column;align-items:center;gap:.25rem}.sl .nb{font-size:.72rem;font-weight:800;background:var(--inset-bg);color:var(--muted);border-radius:99px;padding:.1rem .55rem;transition:.35s}.sl.pop .nb{background:var(--primary);color:var(--on-primary);transform:scale(1.2)}
+.ph{min-width:72px;min-height:44px;border:2px dashed var(--border-subtle);border-radius:12px;display:flex;align-items:center;justify-content:center}.ph:has(.blk){border-color:transparent}.cl{font-size:.68rem;font-weight:700;color:var(--muted);min-height:1em;text-align:center;max-width:110px}
+.bankbox{border:2px dashed var(--border-subtle);border-radius:16px;padding:.7rem;display:flex;flex-wrap:wrap;gap:.5rem;min-height:58px;justify-content:center}.lx-ex{margin:.9rem 0;padding:.9rem;border-radius:14px;background:var(--inset-bg);min-height:92px}.lx-ex p{margin:.4rem 0 0}
+.lx-nav{display:flex;align-items:center;justify-content:space-between;gap:.6rem}.dots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--border-subtle);margin:0 3px;transition:.3s}.dots i.on{background:var(--primary);transform:scale(1.3)}
+.pbar{height:12px;border-radius:9px;background:var(--inset-bg);overflow:hidden}.pbar i{display:block;height:100%;background:var(--primary);transition:width .4s}.zone{min-height:58px;border-bottom:2px solid var(--border-subtle);background:transparent}.zone.bk{border:2px dashed var(--border-subtle);border-radius:14px;justify-content:center}.chip{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;box-shadow:0 3px 0 rgba(0,0,0,.22)}
+.fbbar{border-radius:14px;padding:.7rem;font-weight:700;margin-top:.6rem}.fbbar.ok{background:#d1fae5;color:#065f46}.fbbar.no{background:#ffe4e6;color:#9f1239}
+@media(max-width:768px){.topbar{position:static!important;transform:none!important;border:0!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.customizer-bar,.route-bar,#topbarPinBtn,.brand{display:none!important}.topbar-inner{padding:.4rem 0}.sb-mobile-btn{position:fixed!important;left:12px;bottom:14px;z-index:60;width:46px!important;height:46px!important;border-radius:50%!important;box-shadow:0 4px 14px rgba(0,0,0,.3)!important}}
+
+.chip{transition:none!important}
+.owl{flex-shrink:0;animation:bob 2.2s ease-in-out infinite}.owl.h{animation:hop .5s 3}.owl .pu{transform-box:fill-box;transform-origin:center;animation:blk 4s infinite}@keyframes bob{50%{transform:translateY(-4px)}}@keyframes hop{50%{transform:translateY(-14px)}}@keyframes blk{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.say{display:flex;gap:.6rem;align-items:center}.bub{position:relative;background:var(--inset-bg);border-radius:14px;padding:.7rem .9rem;flex:1}.bub:before{content:'';position:absolute;left:-8px;top:26px;border:8px solid transparent;border-right-color:var(--inset-bg);border-left:0}.say .lx-ex{margin:0}.fbbar .owl{width:54px;height:54px}.fbbar .bub{background:rgba(255,255,255,.55)}
+.mn{margin-left:auto;flex-shrink:0;padding:.3rem .75rem;font-weight:800}.sbody{margin-top:.2rem}
+</style></head>
 <body>
 
   <!-- =====================================================================
@@ -2392,6 +2434,8 @@
         <button class="neo-btn route-tab" data-route-btn="jogos" onclick="switchRoute('jogos')">🎮 Jogos de Química</button>
         <button class="neo-btn route-tab" data-route-btn="biologia" onclick="switchRoute('biologia')">🔬 Biologia</button>
         <button class="neo-btn route-tab" data-route-btn="historia" onclick="switchRoute('historia')">📜 História</button>
+        <button class="neo-btn route-tab" data-route-btn="fisica" onclick="switchRoute('fisica')">🧲 Física</button>
+        <button class="neo-btn route-tab" data-route-btn="ingles" onclick="switchRoute('ingles')">🇬🇧 Inglês</button>
         <button class="neo-btn route-tab" data-route-btn="outras" onclick="switchRoute('outras')">📚 Outras Matérias</button>
       </nav>
     </div>
@@ -2417,6 +2461,8 @@
     <button class="sb-item" data-route="biologia"   onclick="sbGo('biologia')">   <span class="sb-icon">🔬</span><span class="sb-label">Biologia</span>   <span class="sb-pill">25/11</span></button>
     <button class="sb-item" data-route="historia"   onclick="sbGo('historia')">   <span class="sb-icon">📜</span><span class="sb-label">História</span>   <span class="sb-pill">25/11</span></button>
 
+    <button class="sb-item" data-route="fisica" onclick="sbGo('fisica')"><span class="sb-icon">🧲</span><span class="sb-label">Física</span><span class="sb-pill">26/11</span></button>
+    <button class="sb-item" data-route="ingles" onclick="sbGo('ingles')"><span class="sb-icon">🇬🇧</span><span class="sb-label">Inglês</span><span class="sb-pill">26/11</span></button>
     <div class="sb-section-title">🎮 Extras</div>
     <button class="sb-item" data-route="jogos"      onclick="sbGo('jogos')">      <span class="sb-icon">🎮</span><span class="sb-label">Jogos de Química</span></button>
     <button class="sb-item" data-route="formulas"   onclick="sbGo('formulas')">   <span class="sb-icon">⚡</span><span class="sb-label">Fórmulas</span></button>
@@ -2472,6 +2518,8 @@
             <span class="nav-badge">🎮</span>
             <span>Página de Jogos Química</span>
           </button>
+          <button class="neo-btn nav-card" onclick="switchRoute('fisica')"><span class="nav-badge">🧲</span><span>Física 26/11</span></button>
+          <button class="neo-btn nav-card" onclick="switchRoute('ingles')"><span class="nav-badge">🇬🇧</span><span>Inglês 26/11</span></button>
           <button class="neo-btn nav-card" onclick="switchRoute('outras')">
             <span class="nav-badge">📚</span>
             <span>Outras Matérias</span>
@@ -4523,6 +4571,9 @@ New Deal (F. D. Roosevelt): intervenção do Estado na economia, obras públicas
     <!-- =====================================================================
          SEÇÃO GLOBAL DE CARDS ESTILO TINDER ("ARRASTE FALSO / VERDADEIRO")
          ===================================================================== -->
+    <div id="view-fisica" class="view-panel"></div>
+    <div id="view-ingles" class="view-panel"></div>
+
     <section id="tinder-fv-section" class="study-section">
       <div class="section-header">
         <div class="neo-sm section-num">🃏</div>
@@ -4933,7 +4984,7 @@ New Deal (F. D. Roosevelt): intervenção do Estado na economia, obras públicas
     }
 
     function switchRoute(routeName, hashTarget) {
-      const allowed = ["hub", "quimica", "filosofia", "formulas", "jogos", "outras", "matematica", "geografia", "biologia", "historia"];
+      const allowed = ["hub", "quimica", "filosofia", "formulas", "jogos", "outras", "matematica", "geografia", "biologia", "historia", "fisica", "ingles"];
       const target = allowed.includes(routeName) ? routeName : "hub";
       appState.route = target;
       document.documentElement.setAttribute("data-current-route", target);
@@ -6367,5 +6418,416 @@ New Deal (F. D. Roosevelt): intervenção do Estado na economia, obras públicas
       renderGeoGame();
     });
   </script>
+<script>
+(function(){
+const E=id=>document.getElementById(id),COL=['#0d9488','#7c3aed','#e11d48','#d97706','#0284c7','#059669'];
+const yt=q=>`<a class="neo-btn" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}">▶ Videoaula: ${q}</a>`;
+let SON=true;try{SON=localStorage.getItem('snd')!='0'}catch(e){}
+let AC;const snd=t=>{if(!SON)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const T={ok:[[660,0],[880,.12]],no:[[220,0],[160,.15]],pop:[[520,0]],win:[[523,0],[659,.12],[784,.24],[1047,.36]],whoosh:[[300,0],[480,.06]],zap:[[900,0],[250,.05],[1300,.1]],tick:[[700,0]]}[t]||[];T.forEach(([f,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=t=='no'?'sawtooth':'sine';o.frequency.value=f;o.connect(g);g.connect(AC.destination);const s=AC.currentTime+d;g.gain.setValueAtTime(.12,s);g.gain.exponentialRampToValueAtTime(.001,s+.2);o.start(s);o.stop(s+.22)})}catch(e){}};
+document.body.insertAdjacentHTML('beforeend','<button id="sndB" class="neo-btn" title="Sons" style="position:fixed;right:12px;bottom:14px;z-index:60;width:46px;height:46px;border-radius:50%;padding:0">'+(SON?'🔊':'🔇')+'</button>');
+E('sndB').onclick=()=>{SON=!SON;E('sndB').textContent=SON?'🔊':'🔇';try{localStorage.setItem('snd',SON?'1':'0')}catch(e){}snd('ok')};
+const owl=(m='n')=>`<svg class="owl ${m}" viewBox="0 0 100 100" width="76" height="76"><path d="M22 36 L28 12 L44 30Z M78 36 L72 12 L56 30Z" fill="#58cc02"/><ellipse cx="50" cy="60" rx="34" ry="32" fill="#58cc02"/><ellipse cx="50" cy="72" rx="20" ry="18" fill="#a3e635"/><circle cx="36" cy="44" r="13" fill="#fff"/><circle cx="64" cy="44" r="13" fill="#fff"/>${m=='h'?'<path d="M29 46q7-9 14 0M57 46q7-9 14 0" stroke="#1f2937" stroke-width="3.5" fill="none" stroke-linecap="round"/>':`<circle class="pu" cx="${m=='s'?36:38}" cy="${m=='s'?49:44}" r="5" fill="#1f2937"/><circle class="pu" cx="${m=='s'?64:62}" cy="${m=='s'?49:44}" r="5" fill="#1f2937"/>`}<path d="M44 55 L56 55 L50 66Z" fill="#fbbf24"/>${m=='s'?'<path d="M60 26q5 6 0 12" stroke="#38bdf8" stroke-width="3" fill="none"/>':''}<ellipse cx="38" cy="92" rx="9" ry="4" fill="#fbbf24"/><ellipse cx="62" cy="92" rx="9" ry="4" fill="#fbbf24"/></svg>`;
+const say=(m,h)=>`<div class="say">${owl(m)}<div class="bub">${h}</div></div>`;
+const tween=(a,b,ms,f,d)=>{const t0=performance.now(),s=n=>{const k=Math.min(1,(n-t0)/ms);f(a+(b-a)*(k<.5?2*k*k:1-2*(1-k)*(1-k)));k<1?requestAnimationFrame(s):d&&d()};requestAnimationFrame(s)};
+const sec=(ic,t,p,b,c)=>`<section class="study-section"><div class="section-header"><div class="neo-sm section-num">${ic}</div><div style="flex:1"><h2>${t}</h2><p>${p}</p></div><button class="neo-btn mn" title="Minimizar / expandir" onclick="const b=this.closest('section').querySelector('.sbody'),h=b.style.display=='none';b.style.display=h?'':'none';this.textContent=h?'—':'＋'">${c?'＋':'—'}</button></div><div class="sbody" style="${c?'display:none':''}">${b}</div></section>`;
+const hero=(a,h,p)=>`<section class="neo-card hero"><div class="neo-pill">${a}</div><h1>${h}</h1><p class="hero-sub">${p}</p></section>`;
+const acc=(t,f,m)=>`<details class="neo-card neo-acc"><summary><span>${t}</span><span class="neo-sm acc-chevron">▾</span></summary><div class="acc-body"><div class="neo-inset formula-box">${f}</div>${m?`<div class="neo-inset tip-box"><strong class="tip-label">Macete:</strong> ${m}</div>`:''}</div></details>`;
+const sl=(id,l,a,b,v,s)=>`<label style="font-size:.8rem;font-weight:700">${l}: <b id="${id}v">${v}</b><input type="range" id="${id}" min="${a}" max="${b}" step="${s||1}" value="${v}" style="width:100%"></label>`;
+/* ---------- FÍSICA ---------- */
+const FC=[
+["1. Carga elétrica e quantização","Q = n·e   (e = 1,6·10⁻¹⁹ C)\nCorpo neutro: nº de prótons = nº de elétrons → soma das cargas = 0 (não é 'sem carga').","Só o elétron se move: perde → fica +; ganha → fica −."],
+["2. Princípios da eletrostática","Atração e repulsão: cargas de sinais iguais se repelem; opostas se atraem.\nConservação: a soma das cargas de um sistema isolado é constante.","Carga não é criada nem destruída, só transferida."],
+["3. Condutores e isolantes","Condutores (metais): elétrons livres, a carga se espalha.\nIsolantes (borracha, vidro, plástico): carga fica no ponto onde foi colocada.",""],
+["4. Eletrização por atrito","Corpos inicialmente neutros → ficam com cargas de sinais opostos e mesmo módulo.\nEx.: um fica +5 µC, o outro −5 µC.","Atrito = opostos."],
+["5. Eletrização por contato","Sinais IGUAIS no final. Esferas idênticas: Q' = (Q₁ + Q₂) / 2","É o único processo que deixa os dois corpos com o mesmo sinal."],
+["6. Eletrização por indução","Indutor se aproxima (sem tocar) → induzido polariza → liga à terra → afasta a ligação → o induzido fica com sinal OPOSTO ao do indutor.","Indução = oposto."],
+["7. Lei de Coulomb","F = k·|q₁·q₂| / d²     k = 9·10⁹ N·m²/C²\nDobrar d → F/4 · Metade de d → F×4. Par ação-reação: forças iguais em módulo.","Unidades: µC = 10⁻⁶ C · mC = 10⁻³ C · cm → m (÷100)."],
+["8. Campo elétrico","E = k·|Q| / d²   (N/C) · F = |q|·E\nLinhas saem da carga + e chegam na carga −. q+ → F no sentido de E · q− → F contrário.","Carga de prova q+ imaginária: 'foge' da + e 'vai' para a −."],
+["9. Campo elétrico uniforme","Entre placas paralelas: E constante, linhas paralelas e igualmente espaçadas. Uma carga + é acelerada no sentido de E.",""],
+["10. Potencial elétrico","V = k·Q / d   (volt, grandeza ESCALAR)\nO sinal de V é o sinal da carga Q. Vários Q: soma algébrica.","Campo é vetor (soma vetorial); potencial é escalar (soma normal)."],
+["11. Trabalho e ddp","W(A→B) = q·(V_A − V_B)   (joule)\nSuperfície equipotencial: V constante → W = 0 ao se mover sobre ela.","Carga + vai espontaneamente de V maior para V menor."]];
+const EX=[
+["Corpo neutro = sem carga?","Não. Neutro = soma das cargas igual a zero (prótons = elétrons)."],
+["O que é carga quantizada?","Q = n·e: sempre múltiplo inteiro da carga elementar e = 1,6·10⁻¹⁹ C."],
+["Atrito entre corpos neutros; um fica +5 µC. Carga do outro?","−5 µC (cargas opostas e de mesmo módulo)."],
+["Único processo que deixa os corpos com carga de mesmo sinal?","Eletrização por contato."],
+["A=+5q, B=−7q, C=+4q. A toca B, depois A toca C. Carga de A?","A+B: (5−7)/2 = −1q. A+C: (−1+4)/2 = <b>+1,5q</b>."],
+["+2q e +10q se repelem. Quantas vezes a força do 2º sobre o 1º é maior que a do 1º sobre o 2º?","Nenhuma: são iguais (3ª lei de Newton, par ação-reação). Razão = 1."],
+["F entre duas cargas. Distância reduzida à metade: nova força?","F' = 4F (F ∝ 1/d²)."],
+["q₁=4 µC, q₂=12 µC, d=30 cm, vácuo. Força?","F = 9·10⁹·4·10⁻⁶·12·10⁻⁶ / (0,3)² = 0,432/0,09 = <b>4,8 N</b> (repulsão)."],
+["Esboço do campo: A) + e −   B) − e −","A) linhas saem da + e chegam na −. B) linhas chegam nas duas (convergem) e se afastam no meio (repulsão), sem se cruzar."],
+["q = 4 mC em E = 8·10³ N/C. Força?","F = qE = 4·10⁻³·8·10³ = <b>32 N</b>."],
+["q+ em campo uniforme: o que ocorre?","Força no sentido de E: a carga é acelerada para a direita, seguindo as linhas de campo."],
+["Q = 8 µC, ponto a 30 cm. Campo?","E = kQ/d² = 9·10⁹·8·10⁻⁶/0,09 = <b>8·10⁵ N/C</b>."],
+["Potencial em X, Y, Z (figura)?","Mesma circunferência = mesma equipotencial = mesmo V. Confira na lousa quais pontos estão em cada círculo (50 V e 30 V) e atribua o valor do círculo a cada ponto."],
+["V a 60 cm de Q = 4,8 µC?","V = kQ/d = 9·10⁹·4,8·10⁻⁶/0,6 = <b>7,2·10⁴ V</b>."],
+["Trabalho para levar q = 2 µC de A (200 V) a B (60 V)?","W = q(V_A − V_B) = 2·10⁻⁶·140 = <b>2,8·10⁻⁴ J</b> (confira os valores de A e B na figura)."]];
+E('view-fisica').innerHTML=hero('🧲 Física • 26/11','Física — Eletrostática','Simuladores, cards, exercícios da lousa resolvidos, flashcards e Falso/Verdadeiro')+
+sec('⚡','Laboratório de cargas','Arraste cargas e a prova 🟡, toque numa carga para selecionar e mudar o valor',`<div class="neo-card" style="padding:.8rem"><div class="filter-pills" id="lbB"><button class="neo-btn" data-a="4">+4</button><button class="neo-btn" data-a="-4">−4</button><button class="neo-btn" data-a="2">+2</button><button class="neo-btn" data-a="-2">−2</button><button class="neo-btn" data-a="del">🗑 Remover</button><button class="neo-btn" data-a="clr">🧹 Limpar</button><button class="neo-btn" data-p="dip">Dipolo</button><button class="neo-btn" data-p="pp">Duas +</button><button class="neo-btn" data-p="tri">Triângulo</button><button class="neo-btn" data-p="lin">Linha</button></div>${sl('lq','Carga selecionada (µC)',-10,10,4)}<div class="filter-pills" id="lbT"><label><input type="checkbox" data-o="f" checked> Linhas</label><label><input type="checkbox" data-o="v"> Potencial</label><label><input type="checkbox" data-o="a"> Vetores E</label><label><input type="checkbox" data-o="F" checked> Forças</label></div><canvas id="lab" width="360" height="260" style="width:100%;touch-action:none;border-radius:14px;background:var(--inset-bg);margin:.6rem 0"></canvas><div id="lbO" class="neo-inset formula-box"></div></div>`)+
+sec('💡','Simulação: Reflexão da luz','Arraste a lanterna 🔦 e incline o espelho: θi sempre = θr',`<div class="neo-card" style="padding:.8rem">${sl('mb','Inclinação do espelho (°)',-30,30,0)}<svg id="rf" viewBox="0 0 400 200" style="width:100%;touch-action:none;background:var(--inset-bg);border-radius:14px;margin:.5rem 0"><line id="nm" stroke="var(--muted)" stroke-dasharray="4 4"/><line id="mr" stroke="var(--text)" stroke-width="8" stroke-linecap="round"/><line id="ri" class="ray" stroke="#d97706" stroke-width="3"/><line id="rr" class="ray" stroke="#0284c7" stroke-width="3"/><g id="sc" style="cursor:grab"><circle r="16" fill="#d97706"/><text y="6" text-anchor="middle" font-size="16">🔦</text></g></svg><div id="rO" class="neo-inset formula-box"></div></div>`)+
+sec('🃏','Cards de conteúdo (11)','Toque para abrir',`<div class="accordion-stack">${FC.map(c=>acc(...c)).join('')}</div><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem">${yt('eletrostática carga elétrica')}${yt('lei de Coulomb')}${yt('campo elétrico e potencial elétrico')}${yt('reflexão da luz')}</div>`)+
+sec('📝','Exercícios de revisão (lousa)','Tente antes de abrir a resolução',`<div class="accordion-stack">${EX.map((e,i)=>acc((i+1)+'. '+e[0],e[1])).join('')}</div>`);
+(function(){const cv=E('lab'),cx=cv.getContext('2d'),W=360,H=260,K=9e9,PX=.005,O={f:1,v:0,a:0,F:1};let ch=[{x:110,y:130,q:4},{x:250,y:130,q:-4}],pr={x:180,y:50},dg=null,sel=0;
+const Ef=(x,y,sk)=>{let ex=0,ey=0;ch.forEach((c,i)=>{if(i===sk)return;const dx=(x-c.x)*PX,dy=(y-c.y)*PX,r2=dx*dx+dy*dy+1e-6,r=Math.sqrt(r2),e=K*c.q*1e-6/r2;ex+=e*dx/r;ey+=e*dy/r});return[ex,ey]},Vf=(x,y)=>ch.reduce((s,c)=>s+K*c.q*1e-6/Math.max(1e-3,Math.hypot((x-c.x)*PX,(y-c.y)*PX)),0);
+const arrow=(x,y,dx,dy,s,col)=>{cx.fillStyle=col;cx.beginPath();cx.moveTo(x+dx*s,y+dy*s);cx.lineTo(x-dx*s-dy*s*.6,y-dy*s+dx*s*.6);cx.lineTo(x-dx*s+dy*s*.6,y-dy*s-dx*s*.6);cx.fill()};
+function draw(){cx.clearRect(0,0,W,H);
+if(O.v)for(let x=0;x<W;x+=10)for(let y=0;y<H;y+=10){const v=Vf(x+5,y+5);cx.fillStyle=v>0?`rgba(225,29,72,${Math.min(.55,v/2e5)})`:`rgba(2,132,199,${Math.min(.55,-v/2e5)})`;cx.fillRect(x,y,10,10)}
+if(O.a)for(let x=15;x<W;x+=30)for(let y=15;y<H;y+=30){const[ex,ey]=Ef(x,y,-1),m=Math.hypot(ex,ey);if(m){const L=Math.min(13,3+Math.log10(m+1)*1.7);cx.strokeStyle='rgba(100,116,139,.8)';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+ex/m*L,y+ey/m*L);cx.stroke();arrow(x+ex/m*L,y+ey/m*L,ex/m,ey/m,3.5,'rgba(100,116,139,.9)')}}
+if(O.f){cx.lineWidth=1.3;const pos=ch.filter(c=>c.q>0),src=pos.length?pos:ch.filter(c=>c.q<0),sg=pos.length?1:-1;
+src.forEach(c=>{const n=Math.round(Math.abs(c.q)*3)+4;for(let k=0;k<n;k++){const a=2*Math.PI*k/n;let x=c.x+Math.cos(a)*15,y=c.y+Math.sin(a)*15,mid=null;cx.strokeStyle='rgba(217,119,6,.85)';cx.beginPath();cx.moveTo(x,y);for(let s=0;s<500;s++){const[ex,ey]=Ef(x,y,-1),m=Math.hypot(ex,ey);if(!m)break;x+=sg*ex/m*3;y+=sg*ey/m*3;cx.lineTo(x,y);if(s==45)mid=[x,y,ex/m,ey/m];if(x<0||y<0||x>W||y>H||ch.some(o=>o!==c&&Math.hypot(x-o.x,y-o.y)<14))break}cx.stroke();if(mid)arrow(mid[0],mid[1],mid[2],mid[3],5,'rgba(217,119,6,.95)')}})}
+ch.forEach((c,i)=>{cx.fillStyle=c.q>0?'#e11d48':c.q<0?'#0284c7':'#888';cx.beginPath();cx.arc(c.x,c.y,13,0,7);cx.fill();if(i==sel){cx.strokeStyle='#facc15';cx.lineWidth=3;cx.beginPath();cx.arc(c.x,c.y,17,0,7);cx.stroke()}cx.fillStyle='#fff';cx.font='bold 15px sans-serif';cx.textAlign='center';cx.fillText(c.q>0?'+':c.q<0?'−':'0',c.x,c.y+5)
+if(O.F){const[ex,ey]=Ef(c.x,c.y,i),f=[c.q*1e-6*ex,c.q*1e-6*ey],m=Math.hypot(f[0],f[1]);if(m){const L=Math.min(60,10+Math.log10(m*1e3+1)*14);cx.strokeStyle='#7c3aed';cx.lineWidth=3;cx.beginPath();cx.moveTo(c.x,c.y+22);cx.lineTo(c.x+f[0]/m*L,c.y+22+f[1]/m*L);cx.stroke();arrow(c.x+f[0]/m*L,c.y+22+f[1]/m*L,f[0]/m,f[1]/m,6,'#7c3aed')}}});
+const[ex,ey]=Ef(pr.x,pr.y,-1),m=Math.hypot(ex,ey);if(m){const L=Math.min(60,14+Math.log10(m+1)*9);cx.strokeStyle='#059669';cx.lineWidth=3;cx.beginPath();cx.moveTo(pr.x,pr.y);cx.lineTo(pr.x+ex/m*L,pr.y+ey/m*L);cx.stroke();arrow(pr.x+ex/m*L,pr.y+ey/m*L,ex/m,ey/m,7,'#059669')}
+cx.fillStyle='#facc15';cx.strokeStyle='#a16207';cx.lineWidth=2;cx.beginPath();cx.arc(pr.x,pr.y,8,0,7);cx.fill();cx.stroke();
+let t=`🟡 prova (+1 µC): E = ${m.toExponential(2)} N/C · V = ${Vf(pr.x,pr.y).toExponential(2)} V · F = ${(m*1e-6).toExponential(2)} N`;
+const c=ch[sel];if(c){const[fx,fy]=Ef(c.x,c.y,sel);t+=`\nCarga selecionada (${c.q} µC): força resultante = ${(Math.abs(c.q)*1e-6*Math.hypot(fx,fy)).toExponential(2)} N`}
+if(ch.length>1){const a=ch[0],b=ch[1],d=Math.hypot(a.x-b.x,a.y-b.y)*PX;t+=`\nCargas 1 e 2: d = ${(d*100).toFixed(0)} cm · F = ${(K*Math.abs(a.q*b.q)*1e-12/d/d).toPrecision(3)} N (${a.q*b.q<0?'atração':'repulsão'})`}E('lbO').textContent=t}
+const pt=e=>{const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}},syn=()=>{const c=ch[sel];if(c){E('lq').value=c.q;E('lqv').textContent=c.q}};
+cv.onpointerdown=e=>{const p=pt(e);if(Math.hypot(p.x-pr.x,p.y-pr.y)<18)dg=pr;else{const i=ch.map((c,i)=>i).reverse().find(i=>Math.hypot(p.x-ch[i].x,p.y-ch[i].y)<18);dg=i==null?null:ch[i];if(i!=null){sel=i;syn()}}if(dg){cv.setPointerCapture(e.pointerId);draw()}};
+cv.onpointermove=e=>{if(!dg)return;const p=pt(e);dg.x=Math.max(8,Math.min(W-8,p.x));dg.y=Math.max(8,Math.min(H-8,p.y));draw()};cv.onpointerup=()=>dg=null;
+E('lq').oninput=()=>{E('lqv').textContent=E('lq').value;if(ch[sel])ch[sel].q=+E('lq').value;draw()};
+const PRE={dip:[[110,130,4],[250,130,-4]],pp:[[110,130,4],[250,130,4]],tri:[[180,60,4],[110,190,-4],[250,190,-4]],lin:[[60,90,3],[120,90,3],[180,90,3],[240,90,3],[300,90,3]]};
+document.querySelectorAll('#lbB .neo-btn').forEach(b=>b.onclick=()=>{const a=b.dataset.a,p=b.dataset.p;if(p){ch=PRE[p].map(([x,y,q])=>({x,y,q}));sel=0}else if(a=='del'){ch.splice(sel,1);sel=Math.max(0,sel-1)}else if(a=='clr'){ch=[];sel=0}else if(ch.length<8){ch.push({x:60+Math.random()*240,y:40+Math.random()*180,q:+a});sel=ch.length-1}snd('pop');syn();draw()});
+document.querySelectorAll('#lbT input').forEach(i=>i.onchange=()=>{O[i.dataset.o]=i.checked?1:0;draw()});syn();draw()})();
+(function(){const sv=E('rf'),C={x:200,y:150};let S={x:90,y:50};const set=(id,o)=>{for(const k in o)E(id).setAttribute(k,o[k])};
+function up(){const b=+E('mb').value*Math.PI/180;E('mbv').textContent=E('mb').value;const u={x:Math.cos(b),y:Math.sin(b)},n={x:Math.sin(b),y:-Math.cos(b)};
+set('mr',{x1:C.x-150*u.x,y1:C.y-150*u.y,x2:C.x+150*u.x,y2:C.y+150*u.y});set('nm',{x1:C.x-30*n.x,y1:C.y-30*n.y,x2:C.x+120*n.x,y2:C.y+120*n.y});
+let dx=C.x-S.x,dy=C.y-S.y;const L=Math.hypot(dx,dy);dx/=L;dy/=L;const dot=dx*n.x+dy*n.y;E('sc').setAttribute('transform',`translate(${S.x},${S.y})`);set('ri',{x1:S.x,y1:S.y,x2:C.x,y2:C.y});
+if(dot>=0){set('rr',{x1:0,y1:0,x2:0,y2:0});E('rO').textContent='A lanterna está atrás do espelho: leve-a para o lado refletor.';return}
+const rx=dx-2*dot*n.x,ry=dy-2*dot*n.y,th=Math.acos(-dot)*180/Math.PI;set('rr',{x1:C.x,y1:C.y,x2:C.x+rx*170,y2:C.y+ry*170});E('rO').textContent=`θi (incidente–normal) = ${th.toFixed(1)}°\nθr (refletido–normal) = ${th.toFixed(1)}°   → θi = θr`}
+let d=0;const pp=e=>{const p=sv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(sv.getScreenCTM().inverse())};
+E('sc').onpointerdown=e=>{d=1;sv.setPointerCapture(e.pointerId)};sv.onpointermove=e=>{if(!d)return;const p=pp(e);S={x:Math.max(20,Math.min(380,p.x)),y:Math.max(20,Math.min(185,p.y))};up()};sv.onpointerup=()=>d=0;E('mb').oninput=up;up()})();
+/* ---------- JOGOS DE FÍSICA ---------- */
+const f3=v=>(+v.toPrecision(3)).toString();
+const sh=a=>a.sort(()=>Math.random()-.5),pk=a=>a[Math.floor(Math.random()*a.length)],mk=(q,c,w,e)=>{const o=sh([c,...w]);return{q,o,k:o.indexOf(c),e}};
+function game(id,gen,n=10){const box=E(id);let i=0,s=0,st=0;const nx=()=>{if(i>=n){snd('win');box.innerHTML=`<h3>🏁 ${s}/${n} acertos</h3><button class="neo-btn rs">Jogar de novo</button>`;box.querySelector('.rs').onclick=()=>{i=0;s=0;st=0;nx()};return}
+const g=gen();box.innerHTML=`<p style="font-size:.8rem;font-weight:800">Rodada ${i+1}/${n} · ✅ ${s} · 🔥 ${st}</p><h4>${g.q}</h4>${g.o.map(o=>`<button class="neo-btn gb" style="display:block;width:100%;margin:.3rem 0;text-align:left">${o}</button>`).join('')}<p class="gf" style="font-weight:700"></p>`;let d=0;
+box.querySelectorAll('.gb').forEach((b,k)=>b.onclick=()=>{if(d)return;d=1;const ok=k==g.k;if(ok){s++;st++}else st=0;snd(ok?'ok':'no');b.style.outline='3px solid '+(ok?'#059669':'#e11d48');box.querySelectorAll('.gb')[g.k].style.outline='3px solid #059669';box.querySelector('.gf').innerHTML=say(ok?'h':'s',(ok?'✓ ':'✕ ')+(g.e||''));i++;setTimeout(nx,ok?900:2000)})};nx()}
+const SC=[['Dois corpos neutros são esfregados e ficam com cargas opostas.',0],['Um bastão carregado toca uma esfera e ela fica com o mesmo sinal dele.',1],['Aproxima-se o bastão sem tocar, liga-se à terra e o corpo fica com sinal oposto.',2],['Uma esfera de +6 µC toca outra idêntica e neutra: cada uma fica com +3 µC.',1],['Um pente esfregado no cabelo passa a atrair papeizinhos.',0],['Bastão negativo perto de condutor neutro separa as cargas; depois aterra-se o condutor.',2]];
+const GM={g1:()=>{const a=pk([1,-1]),b=pk([1,-1]),t=x=>x>0?'positiva':'negativa';return mk(`Uma carga ${t(a)} e outra ${t(b)}. Elas…`,a*b<0?'se atraem':'se repelem',[a*b<0?'se repelem':'se atraem'],'Sinais iguais repelem; opostos atraem.')},
+g2:()=>{const s=pk(SC),N=['Atrito','Contato','Indução'];return{q:s[0],o:N,k:s[1],e:'Resposta: '+N[s[1]]}},
+g3:()=>{const a=pk([1,2,3,4,5,6]),b=pk([1,2,3,4,5,6]),d=pk([10,20,30,50]),F=9e9*a*b*1e-12/(d/100)**2;return mk(`q₁ = ${a} µC, q₂ = ${b} µC, d = ${d} cm (vácuo). Qual a força?`,f3(F)+' N',[f3(F*2)+' N',f3(F/2)+' N',f3(F*4)+' N'],`F = kq₁q₂/d² = ${f3(F)} N`)},
+g4:()=>{const L=[-8,-4,-2,2,4,6,8,10],a=pk(L);let b=pk(L);while(b==a)b=pk(L);const r=(a+b)/2,t=x=>(x>0?'+':'')+x+' µC';return mk(`Esferas idênticas: ${t(a)} e ${t(b)} se tocam. Carga final de cada uma?`,t(r),[...new Set([t(a+b),t(r+2),t(-r)])].filter(x=>x!=t(r)).slice(0,3),`(${a} + ${b}) / 2 = ${r}`)},
+g5:()=>{const Q=pk([2,4,8]),d=pk([30,60]),E_=9e9*Q*1e-6/(d/100)**2,V=9e9*Q*1e-6/(d/100),e=pk([0,1]),v=e?V:E_,u=e?' V':' N/C',x=n=>n.toExponential(1)+u;return mk(`Q = ${Q} µC, a ${d} cm. Qual o ${e?'potencial V = kQ/d':'campo E = kQ/d²'}?`,x(v),[x(v*10),x(v/10),x(v*2)],`${e?'V':'E'} = ${x(v)}`)}};
+E('view-fisica').insertAdjacentHTML('beforeend',sec('🎮','Joguinhos de Física','10 rodadas cada: acerte em sequência para ganhar 🔥',`<div style="display:grid;gap:.8rem">${[['⚡ Atrai ou repele?','g1'],['🧪 Qual processo de eletrização?','g2'],['🧮 Calcule a força de Coulomb','g3'],['🤝 Contato entre esferas idênticas','g4'],['🌐 Campo e potencial','g5']].map(([t,id])=>`<div class="neo-card" style="padding:1rem"><h3>${t}</h3><div id="${id}"></div></div>`).join('')}</div>`));
+Object.keys(GM).forEach(k=>game(k,GM[k]));
+/* ---------- SIMULAÇÕES LIVRES, MISSÕES E PROVA ---------- */
+const GS=E('g1').closest('section'),ins=h=>GS.insertAdjacentHTML('beforebegin',h),svgB='style="width:100%;touch-action:none;background:var(--inset-bg);border-radius:14px;margin:.5rem 0"';
+const btn=(id,t)=>`<button class="neo-btn" id="${id}">${t}</button>`;
+ins(sec('🧪','Sim: eletrização por contato','Defina as cargas, toque as esferas idênticas e veja a média',`<div class="neo-card" style="padding:.8rem">${sl('ca','Carga de A (µC)',-8,8,4)}${sl('cb','Carga de B (µC)',-8,8,-6)}<svg id="ctS" viewBox="0 0 400 150" ${svgB}></svg><div class="filter-pills">${btn('ctT','🤝 Tocar')}${btn('ctP','↔ Separar')}</div><div id="ctO" class="neo-inset formula-box"></div></div>`)+
+sec('🧲','Sim: eletrização por indução','Aproxime o bastão, ligue à terra, desligue e afaste: o sinal final é oposto',`<div class="neo-card" style="padding:.8rem"><div class="filter-pills">${btn('inS1','Bastão +')}${btn('inS2','Bastão −')}${btn('inG','⏚ Terra: ligar/desligar')}${btn('inA','↤ Afastar bastão')}</div>${sl('ind','Distância do bastão',0,100,100)}<svg id="inS" viewBox="0 0 400 150" ${svgB}></svg><div id="inO" class="neo-inset formula-box"></div></div>`)+
+sec('🔋','Sim: campo uniforme (placas)','Uma partícula de 1 g é solta no meio das placas: veja a aceleração',`<div class="neo-card" style="padding:.8rem">${sl('pe','Campo E (kN/C)',1,50,10)}${sl('pq','Carga q (µC)',-5,5,2)}<svg id="plS" viewBox="0 0 400 160" ${svgB}><defs><marker id="pa" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#d97706"/></marker></defs><rect x="34" y="10" width="10" height="140" fill="#e11d48"/><rect x="356" y="10" width="10" height="140" fill="#0284c7"/><text x="39" y="8" text-anchor="middle" fill="#e11d48" font-weight="800">+</text><text x="361" y="8" text-anchor="middle" fill="#0284c7" font-weight="800">−</text>${[35,65,95,125].map(y=>`<line x1="60" y1="${y}" x2="335" y2="${y}" stroke="#d97706" stroke-width="2" marker-end="url(#pa)"/>`).join('')}<circle id="plP" cx="200" cy="80" r="11"/><text id="plT" x="200" y="85" text-anchor="middle" fill="#fff" font-weight="800"></text></svg><div class="filter-pills">${btn('plG','▶ Lançar')}${btn('plR','↺ Reset')}</div><div id="plO" class="neo-inset formula-box"></div></div>`)+
+sec('📏','Sim: potencial e trabalho','Mova A e B em torno de Q: W = q(V_A − V_B)',`<div class="neo-card" style="padding:.8rem">${sl('wQ','Q (µC)',-10,10,4.8,.1)}${sl('wA','Distância de A (cm)',10,100,30,5)}${sl('wB','Distância de B (cm)',10,100,60,5)}${sl('wq','q que se move (µC)',-5,5,2)}<svg id="wS" viewBox="0 0 400 150" ${svgB}></svg><div id="wO" class="neo-inset formula-box"></div></div>`));
+(function(){let xa=110,xb=290,qa=4,qb=-6;const S=E('ctS'),sy=(x,q)=>{let o='';for(let i=0;i<Math.round(Math.abs(q));i++)o+=`<text x="${x-22+(i%4)*15}" y="${64+Math.floor(i/4)*16}" text-anchor="middle" font-weight="800" fill="${q>0?'#e11d48':'#0284c7'}">${q>0?'+':'−'}</text>`;return o},col=q=>q>0?'#e11d48':q<0?'#0284c7':'#888';
+const dr=()=>{S.innerHTML=`<circle cx="${xa}" cy="70" r="46" fill="var(--surface)" stroke="${col(qa)}" stroke-width="3"/><circle cx="${xb}" cy="70" r="46" fill="var(--surface)" stroke="${col(qb)}" stroke-width="3"/>${sy(xa,qa)}${sy(xb,qb)}<text x="${xa}" y="140" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="700">A: ${qa} µC</text><text x="${xb}" y="140" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="700">B: ${qb} µC</text>`};
+const rd=()=>{qa=+E('ca').value;qb=+E('cb').value;E('cav').textContent=qa;E('cbv').textContent=qb;xa=110;xb=290;E('ctO').textContent=`Q' = (Q₁ + Q₂) / 2 = (${qa} + ${qb}) / 2 = ${(qa+qb)/2} µC para cada esfera`;dr()};
+E('ca').oninput=E('cb').oninput=rd;E('ctT').onclick=()=>{snd('whoosh');tween(xa,154,600,v=>{xa=v;xb=400-v;dr()},()=>{qa=qb=(+E('ca').value+ +E('cb').value)/2;dr();snd('ok')})};E('ctP').onclick=()=>{tween(xa,110,500,v=>{xa=v;xb=400-v;dr()})};rd()})();
+(function(){let sg=1,gr=0,net=0;const S=E('inS'),L=[[250,52],[250,75],[250,98],[264,75]],R=[[310,52],[310,75],[310,98],[296,75]],PL=['+','−','+','−'],PR=['−','+','−','+'];
+const dr=()=>{const d=+E('ind').value,pol=Math.max(0,1-d/100),k=pol>0?Math.max(1,Math.round(pol*4)):0,rx=20+(100-d)*1.2;E('indv').textContent=d;let o='';
+const sy=(x,y,s)=>s?`<text x="${x}" y="${y+5}" text-anchor="middle" font-weight="800" font-size="15" fill="${s=='+'?'#e11d48':'#0284c7'}">${s}</text>`:'';
+for(let i=0;i<4;i++){let l,r;if(net){l=r=net>0?'+':'−'}else{l=i<k?(sg>0?'−':'+'):PL[i];r=gr&&pol>0?'':(i<k?(sg>0?'+':'−'):PR[i])}o+=sy(L[i][0],L[i][1],l)+sy(R[i][0],R[i][1],r)}
+S.innerHTML=`<rect x="${rx}" y="50" width="60" height="50" rx="10" fill="${sg>0?'#e11d48':'#0284c7'}"/><text x="${rx+30}" y="83" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">${sg>0?'+':'−'}</text><circle cx="280" cy="75" r="46" fill="var(--surface)" stroke="var(--muted)" stroke-width="3"/>${o}${gr?'<line x1="280" y1="121" x2="280" y2="140" stroke="var(--text)" stroke-width="3"/><text x="280" y="150" text-anchor="middle" font-size="16">⏚</text>':''}`;
+E('inO').textContent=`Bastão ${sg>0?'+':'−'} · polarização ${Math.round(pol*100)}% · ${gr?'ligada à terra':'isolada'} · carga líquida: ${net?(net>0?'+':'−')+Math.abs(net)+' (oposta ao bastão)':'0 (neutra)'}`};
+E('inS1').onclick=()=>{sg=1;net=0;dr()};E('inS2').onclick=()=>{sg=-1;net=0;dr()};E('ind').oninput=dr;E('inA').onclick=()=>{tween(+E('ind').value,100,600,v=>{E('ind').value=v;dr()})};
+E('inG').onclick=()=>{const pol=Math.max(0,1-E('ind').value/100);if(gr){if(pol>0)net=-sg*Math.max(1,Math.round(pol*4));gr=0}else{gr=1;net=0}snd('pop');dr()};dr()})();
+(function(){let raf=0;const P=E('plP'),T=E('plT'),rd=()=>{const e=+E('pe').value*1e3,q=+E('pq').value*1e-6,a=q*e/1e-3,te=a?Math.sqrt(2*.1/Math.abs(a)):0;E('pev').textContent=E('pe').value;E('pqv').textContent=E('pq').value;P.setAttribute('fill',q>0?'#e11d48':q<0?'#0284c7':'#888');T.textContent=q>0?'+':q<0?'−':'0';
+E('plO').textContent=`F = |q|·E = ${(Math.abs(q)*e).toExponential(2)} N · a = F/m = ${Math.abs(a).toFixed(1)} m/s²\n${q?`Vai para a placa ${q>0?'(−)':'(+)'} em ${(te*1000).toFixed(0)} ms · v = ${(Math.abs(a)*te).toFixed(2)} m/s · W = F·d = ${(Math.abs(q)*e*.1).toExponential(2)} J`:'Carga nula: nada acontece'}`;return q};
+const rs=()=>{cancelAnimationFrame(raf);P.setAttribute('cx',200);T.setAttribute('x',200);rd()};E('pe').oninput=E('pq').oninput=rs;E('plR').onclick=rs;
+E('plG').onclick=()=>{const q=rd();if(!q)return;snd('whoosh');cancelAnimationFrame(raf);const t0=performance.now(),dir=q>0?1:-1,s=n=>{const p=Math.min(1,(n-t0)/2000),x=200+dir*160*p*p;P.setAttribute('cx',x);T.setAttribute('x',x);if(p<1)raf=requestAnimationFrame(s);else snd('ok')};raf=requestAnimationFrame(s)};rs()})();
+(function(){const S=E('wS'),k=9e9,dr=()=>{const Q=+E('wQ').value,A=+E('wA').value,B=+E('wB').value,q=+E('wq').value;['wQ','wA','wB','wq'].forEach(i=>E(i+'v').textContent=E(i).value);const VA=k*Q*1e-6/(A/100),VB=k*Q*1e-6/(B/100),W=q*1e-6*(VA-VB);
+S.innerHTML=`<circle cx="50" cy="75" r="${B*2.6}" fill="none" stroke="#7c3aed" stroke-dasharray="5 4"/><circle cx="50" cy="75" r="${A*2.6}" fill="none" stroke="#059669" stroke-dasharray="5 4"/><circle cx="50" cy="75" r="13" fill="${Q>0?'#e11d48':'#0284c7'}"/><text x="50" y="80" text-anchor="middle" fill="#fff" font-weight="800">Q</text><circle cx="${50+A*2.6}" cy="75" r="7" fill="#059669"/><text x="${50+A*2.6}" y="60" text-anchor="middle" fill="var(--text)" font-size="12">A</text><circle cx="${50+B*2.6}" cy="75" r="7" fill="#7c3aed"/><text x="${50+B*2.6}" y="60" text-anchor="middle" fill="var(--text)" font-size="12">B</text>`;
+E('wO').textContent=`V_A = kQ/d_A = ${VA.toExponential(2)} V\nV_B = kQ/d_B = ${VB.toExponential(2)} V\nW(A→B) = q(V_A − V_B) = ${W.toExponential(2)} J`};['wQ','wA','wB','wq'].forEach(i=>E(i).oninput=dr);dr()})();
+/* missões interativas (baseadas na lousa) */
+const MS=[
+['Q8 · q₁ = 4 µC e q₂ = 12 µC. Ajuste a distância para F = 4,8 N.',['d (cm)',10,100,50,5],v=>{const F=9e9*4e-6*12e-6/(v/100)**2;return[`F = ${f3(F)} N`,Math.abs(F-4.8)<.2]}],
+['Q7 · Parta de d = 40 cm. Mude d até a força ficar 4 vezes maior.',['d (cm)',10,80,40,5],v=>{const r=(40/v)**2;return[`F / F₀ = ${f3(r)}`,Math.abs(r-4)<.05]}],
+['Q12 · Q = 8 µC. Ajuste a distância para E = 8·10⁵ N/C.',['d (cm)',10,100,50,5],v=>{const e=9e9*8e-6/(v/100)**2;return[`E = ${e.toExponential(2)} N/C`,Math.abs(e-8e5)<1e4]}],
+['Q14 · Q = 4,8 µC. Ajuste a distância para V = 7,2·10⁴ V.',['d (cm)',10,100,40,5],v=>{const V=9e9*4.8e-6/(v/100);return[`V = ${V.toExponential(2)} V`,Math.abs(V-7.2e4)<500]}],
+['Q10 · q = 4 mC. Ajuste o campo para obter F = 32 N.',['E (N/C)',1000,20000,3000,500],v=>{const F=4e-3*v;return[`F = qE = ${f3(F)} N`,Math.abs(F-32)<.4]}],
+['Q15 · q = 2 µC, V_A = 200 V. Ajuste V_B para W = 2,8·10⁻⁴ J.',['V_B (V)',0,200,120,10],v=>{const W=2e-6*(200-v);return[`W = ${W.toExponential(2)} J`,Math.abs(W-2.8e-4)<1e-6]}]];
+ins(sec('🎯','Missões interativas','Resolva mexendo nos controles (baseadas nas questões da lousa)',`<div style="display:grid;gap:.8rem">${MS.map((m,i)=>`<div class="neo-card" style="padding:1rem"><b>${m[0]}</b><label style="display:block;font-size:.8rem;font-weight:700;margin-top:.4rem">${m[1][0]}: <b id="ms${i}v">${m[1][3]}</b><input type="range" id="ms${i}" min="${m[1][1]}" max="${m[1][2]}" step="${m[1][4]}" value="${m[1][3]}" style="width:100%"></label><div class="neo-inset formula-box" id="ms${i}o"></div><button class="neo-btn" id="ms${i}b" style="color:var(--primary)">Verificar</button><div id="ms${i}f"></div></div>`).join('')}
+<div class="neo-card" style="padding:1rem"><b>Q5 · A = +5q, B = −7q, C = +4q (esferas idênticas). Faça a esfera A ficar com +1,5q.</b><div id="m7s" class="neo-inset formula-box"></div><div class="filter-pills">${btn('m7a','A toca B')}${btn('m7b','A toca C')}${btn('m7c','B toca C')}${btn('m7r','↺ Reset')}${btn('m7v','Verificar')}</div><div id="m7f"></div></div></div>`));
+MS.forEach((m,i)=>{const up=()=>{const v=+E('ms'+i).value;E('ms'+i+'v').textContent=v;E('ms'+i+'o').textContent=m[2](v)[0]};E('ms'+i).oninput=up;up();E('ms'+i+'b').onclick=()=>{const ok=m[2](+E('ms'+i).value)[1];E('ms'+i+'f').innerHTML=say(ok?'h':'s',ok?'✓ Isso! Você chegou no valor da questão.':'✕ Ainda não. Observe como a resposta muda e tente de novo.');snd(ok?'win':'no')}});
+(function(){let s=[5,-7,4];const dr=()=>E('m7s').textContent=`A = ${s[0]}q   B = ${s[1]}q   C = ${s[2]}q`,t=(i,j)=>{s[i]=s[j]=(s[i]+s[j])/2;snd('pop');dr()};E('m7a').onclick=()=>t(0,1);E('m7b').onclick=()=>t(0,2);E('m7c').onclick=()=>t(1,2);E('m7r').onclick=()=>{s=[5,-7,4];dr()};
+E('m7v').onclick=()=>{const ok=s[0]==1.5;E('m7f').innerHTML=say(ok?'h':'s',ok?'✓ A = +1,5q: A toca B (−1q), depois A toca C (+1,5q).':'✕ A está com '+s[0]+'q. Dica: média a cada toque.');snd(ok?'win':'no')};dr()})();
+/* prova */
+const PV=[['Um corpo neutro significa:','soma das cargas igual a zero',['não possui prótons','não possui elétrons','só tem nêutrons'],0],['Carga elétrica quantizada é:','múltiplo inteiro de e = 1,6·10⁻¹⁹ C',['qualquer valor real','sempre negativa','sempre nula'],1],['Atrito entre neutros; um fica +5 µC. O outro fica:','−5 µC',['+5 µC','0','−10 µC'],2],['Qual processo deixa mesmo sinal nos dois corpos?','Contato',['Atrito','Indução','Polarização'],3],['A = +5q, B = −7q, C = +4q. A toca B e depois A toca C. A fica com:','+1,5q',['−1q','+4q','0'],4],['+2q e +10q se repelem. A razão entre as forças (2º sobre 1º ÷ 1º sobre 2º) é:','1',['5','1/5','2'],5],['A distância cai à metade. A força de Coulomb:','fica 4 vezes maior',['fica 2 vezes maior','cai à metade','cai a um quarto'],6],['q₁ = 4 µC, q₂ = 12 µC, d = 30 cm. A força vale:','4,8 N',['48 N','0,48 N','1,6 N'],7],['q = 4 mC em E = 8·10³ N/C. A força vale:','32 N',['2 N','0,5 N','3,2 N'],9],['Q = 8 µC, ponto a 30 cm. O campo vale:','8·10⁵ N/C',['8·10³ N/C','2,4·10⁵ N/C','8·10⁷ N/C'],11],['V a 60 cm de Q = 4,8 µC:','7,2·10⁴ V',['7,2·10³ V','2,6·10⁴ V','7,2·10⁵ V'],13],['W de A (200 V) a B (60 V) para q = 2 µC:','2,8·10⁻⁴ J',['2,8·10⁻³ J','1,2·10⁻⁴ J','4·10⁻⁴ J'],14],['Uma carga + em campo uniforme:','é acelerada no sentido de E',['fica parada','é acelerada contra E','faz movimento circular'],10],['As linhas de campo de uma carga negativa:','chegam (convergem) nela',['saem dela','são circulares','não existem'],8],['O potencial elétrico é uma grandeza:','escalar',['vetorial','sempre positiva','igual ao campo'],'V = kQ/d é um número (com sinal); o campo é que é vetorial.']];
+ins(sec('📝','Prova de Física (15 questões)','Responda tudo e toque em Corrigir',`<div class="neo-card" style="padding:1rem" id="pvB"></div>`));
+function pvR(){const B=E('pvB');B.innerHTML=PV.map((q,i)=>{const o=sh([q[1],...q[2]]);return`<div class="neo-inset" style="padding:.8rem;margin:.5rem 0;border-radius:14px"><b>${i+1}. ${q[0]}</b>${o.map(t=>`<button class="neo-btn pvo" data-q="${i}" data-c="${t==q[1]?1:0}" style="display:block;width:100%;margin:.3rem 0;text-align:left">${t}</button>`).join('')}<div class="pvx" style="font-size:.8rem;margin-top:.3rem"></div></div>`}).join('')+`<div class="filter-pills">${btn('pvC','✔ Corrigir prova')}${btn('pvN','↺ Refazer')}</div><div id="pvF"></div>`;
+B.querySelectorAll('.pvo').forEach(b=>b.onclick=()=>{if(B.dataset.d)return;B.querySelectorAll(`.pvo[data-q="${b.dataset.q}"]`).forEach(o=>o.classList.remove('is-active'));b.classList.add('is-active');snd('pop')});delete B.dataset.d;
+E('pvN').onclick=pvR;E('pvC').onclick=()=>{if(B.dataset.d)return;B.dataset.d=1;let n=0;PV.forEach((q,i)=>{const bs=[...B.querySelectorAll(`.pvo[data-q="${i}"]`)],pick=bs.find(b=>b.classList.contains('is-active')),ok=pick&&pick.dataset.c=='1';if(ok)n++;bs.forEach(b=>{if(b.dataset.c=='1')b.style.outline='3px solid #059669'});if(pick&&!ok)pick.style.outline='3px solid #e11d48';const ex=typeof q[3]=='number'?EX[q[3]][1]:q[3];bs[0].parentNode.querySelector('.pvx').innerHTML='💡 '+ex});
+E('pvF').innerHTML=say(n>=PV.length*.6?'h':'s',`<b>Você acertou ${n} de ${PV.length}.</b> ${n>=PV.length*.8?'Excelente!':n>=PV.length*.6?'Bom! Revise as erradas.':'Releia os cards e refaça as missões.'}`);snd(n>=PV.length*.6?'win':'no')}}pvR();
+/* ---------- INGLÊS ---------- */
+const LS={
+dir:['🗣️ Direct speech','Fala direta (as palavras exatas):',[['She','Subject','Quem fala. A frase pode começar também pela fala: "I am happy," she said.'],['said','Reporting verb','Verbo de fala: said, asked, shouted, whispered…'],[',','Comma','A vírgula separa o verbo de fala da citação.'],['"I am happy."','Quoted speech','Entre aspas e com maiúscula: as palavras exatas, sem mudar tempo nem pronome.']],'<b>"I am happy!"</b> 🗣️ Eu sou o Ollie! Direct speech é quando repetimos as palavras exatas de alguém, entre aspas.'],
+rep:['💬 Reported speech','Fala direta: She said, "I am happy."',[['She','Subject','O sujeito vem primeiro: é quem falou.'],['said','Reporting verb','Verbo de relato: avisa que vamos contar o que alguém disse.'],['that','Conjunction','Liga o relato à fala. É opcional: "She said she was happy" também está certo.'],['she','Pronoun (I → she)','Na fala direta era "I" (ela mesma). No relato o pronome muda para she.'],['was','Verb (backshift)','Backshift: o presente "am" recua um passo no tempo e vira "was".'],['happy','Adjective','O complemento não muda: continua happy.']]],
+pas:['🔄 Passive voice','Voz ativa: Ana ate the cake.',[['The cake','Subject (patient)','O objeto da ativa vira sujeito: é quem sofre a ação.'],['was','Auxiliary "to be"','O to be fica no mesmo tempo da ativa. "Ate" é passado, então was.'],['eaten','Past participle','O verbo principal vai sempre para o particípio: eat → eaten.'],['by','Preposition','By apresenta quem pratica a ação.'],['Ana','Agent','O sujeito da ativa vira agente. Pode ser omitido se não importa quem fez.']]],
+tag:['❓ Tag question','Frase afirmativa: You are tired.',[['You','Subject','O sujeito abre a frase principal.'],['are','Verb "to be" (affirmative)','Frase principal afirmativa: a tag vai ser negativa.'],['tired','Adjective','Complemento da frase principal.'],["aren't",'Negative tag (auxiliary)','Afirmativa → tag negativa. Repete o mesmo auxiliar: are → aren\'t.'],['you?','Pronoun','Repete o sujeito como pronome e fecha com interrogação.']]],
+txt:['📖 Text comprehension','Texto: Tom missed the bus, so he walked.',[['Tom','Subject','Quem? Pergunte sempre quem pratica a ação.'],['missed','Verb (past)','Terminação -ed indica passado: perdeu.'],['the bus','Object','O que ele perdeu? O ônibus.'],['so','Connector (result)','So = então: indica consequência do que veio antes.'],['he','Pronoun (refers to Tom)','Referência: he retoma Tom para não repetir o nome.'],['walked','Verb (past)','A consequência: ele foi a pé.']]]};
+let lk='dir',ls=0;
+const fly=(el,to)=>{const a=el.getBoundingClientRect();to.appendChild(el);const b=el.getBoundingClientRect();el.animate([{transform:`translate(${a.left-b.left}px,${a.top-b.top}px) scale(1.2)`},{transform:'none'}],{duration:700,easing:'cubic-bezier(.3,.9,.3,1)'})};
+const fade=(el,h)=>{el.innerHTML=h;el.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:450,easing:'ease-out'})};
+const blocks=(arr,el)=>{el.innerHTML=arr.map((b,i)=>`<div class="bw"><div class="nb2">${i+1}º</div><div class="blk" style="background:${COL[i%6]}">${b[0]}</div><div class="tg">${b[1]}</div></div>`).join('');[...el.querySelectorAll('.bw')].forEach((b,i)=>setTimeout(()=>b.classList.add('in'),200+i*350))};
+E('view-ingles').innerHTML=hero('🇬🇧 Língua Inglesa • 26/11','Inglês','Veja a frase sendo montada, pratique e consulte o dicionário')+
+sec('🧩','Como montar a frase','Use ▶ para avançar e ◀ para voltar',`<div class="neo-card" style="padding:1rem"><div class="filter-pills" id="lxT">${Object.keys(LS).map(k=>`<button class="neo-btn" data-k="${k}">${LS[k][0]}</button>`).join('')}</div><p id="lxSrc" style="font-weight:800;color:var(--muted)"></p><div id="lxSl" class="slots"></div><p style="font-size:.72rem;font-weight:800;color:var(--muted);margin:.2rem 0">Caixa de palavras</p><div id="lxBank" class="bankbox"></div><div class="say" style="margin:.9rem 0"><div id="lxO"></div><div id="lxEx" class="bub lx-ex"></div></div><p id="lxFin" style="font-weight:800;color:var(--primary)"></p><div class="lx-nav"><button class="neo-btn" id="lxP">◀ Voltar</button><span class="dots" id="lxD"></span><button class="neo-btn" id="lxN" style="color:var(--primary)">Próxima ▶</button></div></div>`)+
+sec('🎯','Atividades','Arraste ou toque nos blocos · Verificar ou Pular',`<div class="filter-pills" style="margin-bottom:.6rem"><button class="neo-btn is-active" id="tM">🧱 Montar e escolher</button><button class="neo-btn" id="tW">✍️ Escrever</button></div><div class="neo-card" style="padding:1rem" id="exM"></div><div class="neo-card" style="padding:1rem;display:none" id="exW"></div><div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap">${yt('reported speech inglês')}${yt('passive voice inglês')}${yt('tag questions inglês')}${yt('text comprehension inglês')}</div>`)+
+sec('📚','Dicionário','Pesquise em inglês ou português',`<input id="dq" class="ctrl-select" style="width:100%;margin-bottom:.6rem" placeholder="Buscar: said, porque, passive…" autocomplete="off"><div id="dl" style="display:grid;gap:.5rem"></div>`,1);
+function lxLoad(k){lk=k;ls=0;const[,src,st]=LS[k];E('lxSrc').textContent=src;E('lxSl').innerHTML=st.map((s,i)=>`<div class="sl"><span class="nb">${i+1}º</span><div class="ph"></div><span class="cl"></span></div>`).join('');
+E('lxBank').innerHTML=st.map((s,i)=>i).sort(()=>Math.random()-.5).map(i=>`<span class="blk in" data-i="${i}" style="background:${COL[i%6]}">${st[i][0]}</span>`).join('');E('lxD').innerHTML=st.map(()=>'<i></i>').join('');
+E('lxO').innerHTML=owl('n');fade(E('lxEx'),LS[k][3]||'<b>Pronto?</b><p>Toque em <b>Próxima ▶</b> e cada palavra vai para o lugar dela, com a explicação do porquê.</p>');E('lxFin').textContent='';lxUi();document.querySelectorAll('#lxT .neo-btn').forEach(b=>b.classList.toggle('is-active',b.dataset.k==k))}
+function lxUi(){const n=LS[lk][2].length;[...E('lxD').children].forEach((d,i)=>d.classList.toggle('on',i<ls));E('lxN').textContent=ls>=n?'↻ Recomeçar':'Próxima ▶';E('lxP').style.opacity=ls?1:.4}
+function lxShow(i){const s=LS[lk][2][i];fade(E('lxEx'),`<b style="color:${COL[i%6]}">${i+1}º — ${s[1]}</b> <span class="neo-pill">${s[0]}</span><p>${s[2]}</p>`)}
+E('lxN').onclick=()=>{const st=LS[lk][2];if(ls>=st.length){lxLoad(lk);return}const i=ls,chip=E('lxBank').querySelector(`[data-i="${i}"]`),sl=E('lxSl').children[i];if(!chip)return;snd('whoosh');fly(chip,sl.querySelector('.ph'));const cl=sl.querySelector('.cl');cl.textContent=st[i][1];cl.animate([{opacity:0},{opacity:1}],{duration:500,delay:450,fill:'backwards'});ls++;lxShow(i);lxUi();E('lxO').innerHTML=owl(ls==st.length?'h':'n');
+if(ls==st.length)setTimeout(()=>{[...E('lxSl').children].forEach((s,j)=>setTimeout(()=>s.classList.add('pop'),j*150));snd('win');E('lxFin').textContent='✓ '+st.map(s=>s[0]).join(' ')+' — frase formada!'},900)};
+E('lxP').onclick=()=>{if(!ls)return;ls--;[...E('lxSl').children].forEach(s=>s.classList.remove('pop'));E('lxFin').textContent='';const sl=E('lxSl').children[ls];fly(sl.querySelector('.blk'),E('lxBank'));sl.querySelector('.cl').textContent='';if(ls)lxShow(ls-1);else fade(E('lxEx'),'<b>Pronto?</b><p>Toque em <b>Próxima ▶</b> para recomeçar.</p>');lxUi()};
+document.querySelectorAll('#lxT .neo-btn').forEach(b=>b.onclick=()=>lxLoad(b.dataset.k));lxLoad('dir');
+const O=(pt,a,l,d)=>({t:'o',q:'Monte a frase em inglês',pt,a,l,d}),C=(q,o,k)=>({t:'c',q,o,k}),Wr=(q,a,h)=>({t:'w',q,a:[].concat(a),h});
+const EXM=[O('Ela disse que estava feliz.','She said that she was happy',['Subject','Reporting verb','Conjunction','Pronoun','Verb (backshift)','Adjective'],['is']),
+O('Ele disse que viajaria no dia seguinte.','He said he would travel the next day',['Subject','Reporting verb','Pronoun','Modal (will→would)','Verb','Time','Time','Time'],['will']),
+O('O bolo foi comido por Ana.','The cake was eaten by Ana',['Article','Subject (patient)','To be (past)','Participle','Preposition','Agent'],['ate']),
+O('Os livros são lidos pelos alunos.','The books are read by the students',['Article','Subject','To be (present)','Participle','Preposition','Article','Agent']),
+O('Você está cansado, não está?','You are tired aren\'t you',['Subject','Verb','Adjective','Negative tag','Pronoun'],['do']),
+O('Ele não gosta de café, gosta?','He doesn\'t like coffee does he',['Subject','Neg. auxiliary','Verb','Object','Positive tag','Pronoun'],['is']),
+C('The letter ___ by Tom yesterday.',['was written','wrote','is written','written'],0),
+C('"I can swim," she said → She said she ___ swim.',['can','could','cans','was'],1),
+C('She can drive, ___?',['can\'t she','does she','isn\'t she','can she'],0),
+C('Passiva de "They build houses":',['Houses are built by them.','Houses was built.','Houses build them.','Houses is built.'],0),
+C('Tom missed the bus, so he walked. Why did he walk?',['He missed the bus','He likes walking','It was late','He had a car'],0),
+C('"However" significa:',['porque','no entanto','então','embora'],1)];
+const EXW=[Wr('Traduza: Ele disse que estava cansado.',['he said he was tired','he said that he was tired'],'said + backshift'),
+Wr('"I will help you," she said → She said she ___ help me.','would','will → ?'),
+Wr('Passiva de: Ana wrote the letter.','the letter was written by ana','was + particípio + by'),
+Wr('The windows ___ (break) yesterday.','were broken','passado + plural'),
+Wr('She likes pizza, ___?',["doesn't she",'does she not'],'afirmativa → tag negativa'),
+Wr('They aren\'t here, ___?','are they','negativa → tag positiva'),
+Wr('Traduza: A casa foi construída em 1990.','the house was built in 1990','to be + built'),
+Wr('"Do you like music?" he asked → He asked ___ I liked music.',['if','whether'],'pergunta indireta')];
+EXM.push(O('Ela disse: "Eu estou feliz."','She said "I am happy"',['Subject','Reporting verb','Quoted speech','Quoted speech','Quoted speech'],['was']),
+C('Direta → indireta: He said, "I like pizza." →',['He said he liked pizza.','He said I like pizza.','He said he likes pizza.','He liked pizza said.'],0),
+C('Indireta → direta: She said she was tired. →',['She said, "I am tired."','She said, "She was tired."','She said, "You are tired."','She said, "He is tired."'],0),
+C('Qual frase está em DIRECT speech?',['Tom said, "I am late."','Tom said he was late.','Tom told me he was late.','Tom said that he is late.'],0));
+EXW.push(Wr('Direta → indireta: He said, "We are ready." → He said ___ were ready.','they','we → ?'),
+Wr('Indireta → direta: She said she would come. → She said, "I ___ come."','will','would → ?'),
+Wr('Coloque a fala: She said "___ hungry." (Eu estou)',['i am','i’m',"i'm"],'aspas + maiúscula'));
+function runner(box,list){let i=0,xp=0,hp=5,done=0,pk=-1;const norm=s=>s.toLowerCase().replace(/’/g,"'").replace(/[^a-z' ]/g,'').replace(/\s+/g,' ').trim();
+function show(){if(i>=list.length||hp<=0){snd(hp<=0?'no':'win');box.innerHTML=`<h3>${hp<=0?'😵 Acabaram as vidas':'🎉 Lição concluída!'}</h3><p>⭐ ${xp} XP</p><button class="neo-btn rs">Recomeçar</button>`;box.querySelector('.rs').onclick=()=>{i=0;xp=0;hp=5;show()};return}
+done=0;pk=-1;const x=list[i];let h=`<div class="pbar"><i style="width:${i/list.length*100}%"></i></div><p style="font-size:.8rem;font-weight:800">❤️ ${hp} · ⭐ ${xp} XP · ${i+1}/${list.length}</p><h3>${x.q}</h3>`;
+if(x.t=='o')h+=`<p style="font-weight:700;color:var(--muted)">“${x.pt}”</p><div class="zone ans"></div><div class="zone bk">${[...x.a.split(' '),...(x.d||[])].sort(()=>Math.random()-.5).map(w=>`<span class="blk in chip">${w}</span>`).join('')}</div>`;
+else if(x.t=='c')h+=x.o.map((o,k)=>`<button class="neo-btn opt" style="display:block;width:100%;margin:.35rem 0;text-align:left">${o}</button>`).join('');
+else h+=`${x.h?`<p style="font-size:.75rem;color:var(--muted)">Dica: ${x.h}</p>`:''}<input class="ctrl-select tin" style="width:100%" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Digite em inglês">`;
+h+=`<div class="fbbar" style="display:none"></div><div class="bl exbl"></div><div style="display:flex;gap:.5rem;margin-top:.6rem"><button class="neo-btn skip">Pular</button><button class="neo-btn main" style="flex:1;color:var(--primary)">Verificar</button></div>`;box.innerHTML=h;
+box.querySelectorAll('.opt').forEach((b,k)=>b.onclick=()=>{if(done)return;pk=k;box.querySelectorAll('.opt').forEach((o,j)=>o.classList.toggle('is-active',j==k))});
+const inp=box.querySelector('.tin');if(inp)inp.onkeydown=e=>{if(e.key=='Enter')main.click()};
+const main=box.querySelector('.main');box.querySelector('.skip').onclick=()=>{i++;show()};
+main.onclick=()=>{if(done){i++;show();return}let ok,got;
+if(x.t=='o'){const c=[...box.querySelectorAll('.ans .chip')];if(!c.length)return;ok=norm(c.map(e=>e.textContent).join(' '))==norm(x.a)}else if(x.t=='c'){if(pk<0)return;ok=pk==x.k}else{got=inp.value;if(!got.trim())return;ok=x.a.some(v=>norm(v)==norm(got))}
+done=1;const fb=box.querySelector('.fbbar'),ans=x.t=='c'?x.o[x.k]:x.t=='o'?x.a:x.a[0];fb.style.display='block';fb.className='fbbar '+(ok?'ok':'no');
+if(ok){xp+=10;fb.innerHTML=say('h','✓ Muito bem! +10 XP');snd('ok')}else{hp--;fb.innerHTML=say('s','✕ Resposta correta: <b>'+ans+'</b>');snd('no')}
+fb.animate([{transform:'translateY(14px)',opacity:0},{transform:'none',opacity:1}],{duration:300});if(x.t=='o'&&x.l)blocks(x.a.split(' ').map((w,j)=>[w,x.l[j]]),box.querySelector('.exbl'));main.textContent='Continuar →'}}
+show();dragInit(box,()=>done)}
+function dragInit(box,isDone){box.onpointerdown=e=>{const c=e.target.closest('.chip');if(!c||isDone())return;const r=c.getBoundingClientRect(),ox=e.clientX-r.left,oy=e.clientY-r.top,sx=e.clientX,sy=e.clientY;let mv=0,g=null;
+const m=ev=>{if(!mv&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){mv=1;g=c.cloneNode(true);g.style.cssText=`position:fixed;left:0;top:0;width:${r.width}px;z-index:999;pointer-events:none;transition:none;will-change:transform;box-shadow:0 8px 18px rgba(0,0,0,.3);transform:translate3d(${r.left}px,${r.top}px,0) scale(1.08)`;document.body.appendChild(g);c.style.opacity=.25}if(mv)g.style.transform=`translate3d(${ev.clientX-ox}px,${ev.clientY-oy}px,0) scale(1.08)`};
+const u=ev=>{removeEventListener('pointermove',m);removeEventListener('pointercancel',u);if(g)g.remove();c.style.opacity='';const ans=box.querySelector('.ans'),bk=box.querySelector('.bk');
+if(!mv){(c.parentNode==ans?bk:ans).appendChild(c);return}
+const t=document.elementFromPoint(ev.clientX,ev.clientY),z=t&&t.closest('.zone');if(!z)return;if(z==bk){bk.appendChild(c);return}
+const before=[...ans.children].filter(o=>o!==c).find(o=>{const q=o.getBoundingClientRect();return ev.clientY<q.top||(ev.clientY<q.bottom&&ev.clientX<q.left+q.width/2)});ans.insertBefore(c,before||null);snd('pop')};
+addEventListener('pointermove',m);addEventListener('pointerup',u,{once:true});addEventListener('pointercancel',u,{once:true})}}
+runner(E('exM'),EXM);runner(E('exW'),EXW);
+E('tM').onclick=()=>{E('exM').style.display='';E('exW').style.display='none';E('tM').classList.add('is-active');E('tW').classList.remove('is-active')};
+E('tW').onclick=()=>{E('exW').style.display='';E('exM').style.display='none';E('tW').classList.add('is-active');E('tM').classList.remove('is-active')};
+const DICT=`said|disse|verb (past)|She said she was tired.
+told|contou, disse a alguém|verb (past)|He told me the truth.
+asked|perguntou|verb (past)|She asked where I lived.
+answered|respondeu|verb (past)|He answered quickly.
+explained|explicou|verb (past)|The teacher explained the rule.
+promised|prometeu|verb (past)|She promised to call.
+warned|avisou|verb (past)|He warned us.
+that|que (conjunção)|conjunction|She said that she was happy.
+if / whether|se (pergunta indireta)|conjunction|He asked if I liked music.
+now → then|agora → então|time shift|He said he was busy then.
+today → that day|hoje → naquele dia|time shift|She said she was working that day.
+tomorrow → the next day|amanhã → no dia seguinte|time shift|He would travel the next day.
+yesterday → the day before|ontem → no dia anterior|time shift|She had left the day before.
+here → there|aqui → lá|place shift|He said he was there.
+ago → before|atrás (tempo) → antes|time shift|Two years before.
+am / is → was|sou, é → era|backshift|"I am sad" → she was sad.
+are → were|somos, são → eram|backshift|They said they were ready.
+will → would|futuro → condicional|backshift|He said he would come.
+can → could|poder → podia|backshift|She said she could swim.
+must → had to|dever → tinha de|backshift|He said he had to go.
+was / were|foi, era / foram|to be (past)|The cake was eaten.
+been|sido, estado|participle|It has been done.
+by|por (agente)|preposition|Written by Ana.
+agent|agente (quem faz)|grammar|Ana is the agent.
+eaten|comido|participle|The cake was eaten.
+written|escrito|participle|The letter was written.
+built|construído|participle|The house was built.
+made|feito|participle|It was made in Brazil.
+seen|visto|participle|He was seen at school.
+taken|levado, tomado|participle|It was taken away.
+given|dado|participle|A prize was given.
+broken|quebrado|participle|The window was broken.
+known|conhecido|participle|She is known worldwide.
+done|feito|participle|The work was done.
+found|encontrado|participle|The keys were found.
+stolen|roubado|participle|The car was stolen.
+tag question|pergunta-confirmação (né?)|grammar|You are tired, aren't you?
+isn't it?|não é?|tag|It's cold, isn't it?
+aren't you?|não é? / não está?|tag|You are late, aren't you?
+doesn't he?|não é? (ele)|tag|He works here, doesn't he?
+don't they?|não é? (eles)|tag|They know, don't they?
+can't she?|não é? (ela pode)|tag|She can swim, can't she?
+aren't I?|não sou? (I am)|tag|I am right, aren't I?
+shall we?|vamos? (Let's)|tag|Let's go, shall we?
+however|no entanto|connector|It was late; however, we stayed.
+although|embora|connector|Although it rained, we went out.
+because|porque|connector|I stayed because I was sick.
+so|então, por isso|connector|He missed the bus, so he walked.
+but|mas|connector|I tried, but I failed.
+despite|apesar de|connector|Despite the rain, we played.
+therefore|portanto|connector|He studied; therefore, he passed.
+while|enquanto|connector|She read while he cooked.
+also|também|adverb|She also likes tea.
+finally|finalmente|adverb|Finally, we arrived.
+skimming|leitura rápida (ideia geral)|reading|Skimming gives the main idea.
+scanning|busca de informação específica|reading|Scan the text for dates.
+main idea|ideia principal|reading|What is the main idea?
+headline|manchete|reading|The headline says it all.
+paragraph|parágrafo|reading|Read the first paragraph.
+author|autor|reading|The author thinks…
+according to|de acordo com|reading|According to the text…
+refers to|se refere a|reading|"It" refers to the bus.
+cognate|cognato (palavra parecida)|reading|Important = importante.
+false friend|falso cognato|reading|Pretend ≠ pretender.`.split('\n').map(l=>l.split('|'));
+const dR=q=>{q=q.toLowerCase().trim();E('dl').innerHTML=DICT.filter(d=>!q||d.slice(0,3).join(' ').toLowerCase().includes(q)).map(d=>`<div class="neo-inset" style="padding:.6rem .8rem;border-radius:12px"><b>${d[0]}</b> — ${d[1]} <span class="neo-pill">${d[2]}</span><div style="font-size:.78rem;color:var(--muted);font-style:italic">${d[3]}</div></div>`).join('')||'<p>Nada encontrado.</p>'};
+E('dq').oninput=e=>dR(e.target.value);dR('');
+/* ---------- FLASHCARDS & V/F ---------- */
+const FL=[['Física','Carga','Corpo neutro está sem carga?','Não: soma das cargas = 0 (prótons = elétrons).'],['Física','Quantização','Fórmula da carga quantizada?','Q = n·e, e = 1,6·10⁻¹⁹ C.'],['Física','Eletrização','Qual processo deixa mesmo sinal nos dois corpos?','Contato.'],['Física','Eletrização','Sinal do induzido na indução?','Oposto ao do indutor.'],['Física','Coulomb','Fórmula da lei de Coulomb e valor de k?','F = k|q₁q₂|/d²; k = 9·10⁹ N·m²/C².'],['Física','Coulomb','Distância dobra: o que ocorre com F?','F fica 4 vezes menor.'],['Física','Campo','Fórmulas do campo e da força elétrica?','E = kQ/d² e F = qE.'],['Física','Campo','Direção das linhas de campo?','Saem da carga + e chegam na carga −.'],['Física','Potencial','Fórmula do potencial e tipo de grandeza?','V = kQ/d; escalar (tem sinal).'],['Física','Trabalho','Trabalho da força elétrica de A para B?','W = q(V_A − V_B).'],['Física','Óptica','Lei da reflexão da luz?','Ângulo de incidência = ângulo de reflexão.'],['Física','Esferas','Esferas idênticas em contato (cargas Q₁ e Q₂)?','Cada uma fica com (Q₁+Q₂)/2.'],
+['Inglês','Reported','said / told / asked','disse / contou a alguém / perguntou. Ex.: She told me that…'],['Inglês','Reported','the next day · that day · there · then','no dia seguinte · naquele dia · lá · então (de tomorrow/today/here/now).'],['Inglês','Reported','will → ? · can → ? · am/is → ?','would · could · was.'],['Inglês','Passive','Estrutura da voz passiva','Sujeito + to be + particípio (+ by agente).'],['Inglês','Passive','eaten · written · built · made · seen','comido · escrito · construído · feito · visto.'],['Inglês','Passive','by','por (introduz o agente da passiva).'],['Inglês','Tag','Tag de "She is late"','isn\'t she?'],['Inglês','Tag','Tag de "They don\'t know"','do they?'],['Inglês','Tag','Tag de "I am right"','aren\'t I?'],['Inglês','Texto','however · although · because · so','no entanto · embora · porque · então.'],['Inglês','Texto','skimming × scanning','ideia geral × busca de informação específica.'],['Inglês','Texto','Referência: it, they, this','Retomam algo já citado: ache o substantivo.']];
+FL.forEach(f=>FLASHCARDS.push({subject:f[0],topic:f[1],front:f[2],back:f[3]}));
+const TF=[['Física',1,'Pelo princípio da conservação, a soma das cargas de um sistema isolado se mantém.','Carga só é transferida.'],['Física',0,'Dois corpos eletrizados por atrito ficam com cargas de mesmo sinal.','Ficam com sinais opostos.'],['Física',1,'Reduzir a distância à metade multiplica a força de Coulomb por 4.','F ∝ 1/d².'],['Física',0,'O potencial elétrico é uma grandeza vetorial.','É escalar; o campo é que é vetorial.'],['Física',1,'Uma carga positiva em campo elétrico sofre força no sentido do campo.','Para q negativa seria contrário.'],['Física',0,'A força de q₂ sobre q₁ é maior que a de q₁ sobre q₂ se q₂ > q₁.','Par ação-reação: forças iguais.'],['Física',1,'Em reflexão, o ângulo de incidência é igual ao de reflexão.','2ª lei da reflexão.'],['Física',0,'Sobre uma superfície equipotencial o trabalho da força elétrica é diferente de zero.','ΔV = 0, logo W = 0.'],['Física',1,'Na eletrização por contato entre esferas idênticas as cargas se igualam.','Q\' = (Q₁+Q₂)/2.'],['Física',0,'As linhas de campo de uma carga negativa saem dela.','Elas chegam (convergem) na carga negativa.'],
+['Inglês',1,'Em reported speech, "will" normalmente vira "would".','Backshift.'],['Inglês',0,'"Tomorrow" permanece igual no discurso indireto no passado.','Vira "the next day".'],['Inglês',1,'Na voz passiva usa-se o verbo to be + particípio.','Ex.: was eaten.'],['Inglês',0,'"The cake was eaten by Ana" está na voz ativa.','Está na passiva.'],['Inglês',1,'A tag de "You are tired" é "aren\'t you?".','Afirmativa → tag negativa.'],['Inglês',0,'A tag de "He doesn\'t like it" é "doesn\'t he?".','Negativa → tag positiva: does he?'],['Inglês',1,'Skimming serve para captar a ideia geral do texto.','Scanning busca dado específico.'],['Inglês',0,'"However" significa "porque".','Significa "no entanto".'],['Inglês',1,'A tag de "I am right" é "aren\'t I?".','Exceção de I am.'],['Inglês',0,'Em "She said that she was happy", a fala direta era "She is happy".','Era "I am happy".']];
+TF.forEach((t,i)=>TINDER_STATEMENTS.push({id:100+i,subject:t[0],answer:!!t[1],statement:t[2],explanation:(t[1]?'VERDADEIRO. ':'FALSO. ')+t[3]}));
+window.H={E,snd,say,owl,sec,sl,sh,tween,PV,ex:q=>typeof q[3]=='number'?EX[q[3]][1]:q[3]};
+})();
+
+</script>
+<script>
+(function(){
+const {E,snd,sec,sl,sh,tween,PV,ex}=window.H;
+const st=document.createElement('style');st.textContent='.xch{min-width:34px;padding:.3rem .5rem!important;font-size:.75rem}.xch.on{outline:3px solid var(--primary)}.xch.dn{opacity:.55}';document.head.appendChild(st);
+const fp=n=>(+n.toPrecision(3)).toString().replace('.',','),ee=n=>n.toExponential(2).replace('.',',');
+/* personagem humano (Lia) que fala */
+const kid=(m='n')=>`<svg class="owl ${m}" viewBox="0 0 100 110" width="84" height="92"><circle cx="50" cy="38" r="28" fill="#fcd9b6"/><path d="M20 38a30 30 0 0 1 60 0q-14-16-30-12-16-4-30 12z" fill="#7c3aed"/><rect x="28" y="64" width="44" height="40" rx="14" fill="#0ea5e9"/><circle cx="39" cy="40" r="4" fill="#1f2937"/><circle cx="61" cy="40" r="4" fill="#1f2937"/>${m=='h'?'<path d="M38 52q12 12 24 0z" fill="#be123c"/>':m=='s'?'<path d="M40 57q10-8 20 0" stroke="#be123c" stroke-width="3" fill="none"/>':'<ellipse cx="50" cy="54" rx="6" ry="3" fill="#be123c"><animate attributeName="ry" values="2;6;2" dur=".5s" repeatCount="indefinite"/></ellipse>'}</svg>`;
+const sayK=(m,h)=>`<div class="say">${kid(m)}<div class="bub">${h}</div></div>`;
+
+/* ---------- Recolher / expandir tudo ---------- */
+['view-fisica','view-ingles'].forEach(id=>{const v=E(id),h=v.querySelector('.hero');h.insertAdjacentHTML('afterend','<div class="filter-pills" style="margin:.8rem 0"><button class="neo-btn">▾ Recolher tudo</button><button class="neo-btn">▸ Expandir tudo</button></div>');const b=h.nextElementSibling.children,vis=m=>m.closest('section').querySelector('.sbody').style.display!='none';
+b[0].onclick=()=>v.querySelectorAll('.mn').forEach(m=>{if(vis(m))m.click()});b[1].onclick=()=>v.querySelectorAll('.mn').forEach(m=>{if(!vis(m))m.click()})});
+
+/* ---------- INGLÊS: Direct speech com a Lia ---------- */
+const DS=[['D','She said, "I am happy."','Como fica em reported speech?','She said that she was happy.',['She said that she is happy.','She said that I was happy.','She said that she were happy.'],'am → was · I → she'],
+['D','He said, "I will call you."','Reported speech:','He said that he would call me.',['He said that he will call you.','He said that I would call you.','He said that he would call you.'],'will → would · you → me'],
+['D','"We are tired," they said.','Reported speech:','They said that they were tired.',['They said that we were tired.','They said that they are tired.','They said that they was tired.'],'we → they · are → were'],
+['D','Tom said, "I can swim."','Reported speech:','Tom said that he could swim.',['Tom said that I could swim.','Tom said that he can swim.','Tom said that he cans swim.'],'can → could · I → he'],
+['R','She said that she was hungry.','Qual era a fala direta (direct speech)?','She said, "I am hungry."',['She said, "She was hungry."','She said, "I was hungry."','She said, I am hungry.'],'was → am · she → I'],
+['R','He said that he would come the next day.','Qual era a fala direta?','He said, "I will come tomorrow."',['He said, "I would come the next day."','He said, "He will come tomorrow."','He said, "I will come the next day."'],'would → will · the next day → tomorrow'],
+['P','She said "I am late"','Qual pontuação de direct speech está correta?','She said, "I am late."',['She said "I am late".','She said I am late.','She said, I am late.'],'vírgula antes das aspas · ponto dentro das aspas'],
+['P','Tom asked, "Do you like music?"','Em direct speech, o que muda nas palavras ditas?','Nada: as palavras exatas ficam entre aspas.',['Tudo vira passado.','"Do you" vira "if he".','As aspas somem.'],'Direct speech repete as palavras exatas']];
+function exD(){const B=E('exD');let i=0,xp=0,hp=5,dn=0;
+const rd=()=>{if(i>=DS.length||hp<=0){snd(hp<=0?'no':'win');B.innerHTML=sayK(hp<=0?'s':'h',`<h3>${hp<=0?'Acabaram as vidas':'🎉 Direct speech dominado!'}</h3>⭐ ${xp} XP`)+'<button class="neo-btn rs">Recomeçar</button>';B.querySelector('.rs').onclick=()=>{i=0;xp=0;hp=5;rd()};return}
+dn=0;const d=DS[i],o=sh([d[3],...d[4]]);
+B.innerHTML=`<div class="pbar"><i style="width:${i/DS.length*100}%"></i></div><p style="font-size:.8rem;font-weight:800">❤️ ${hp} · ⭐ ${xp} XP · ${i+1}/${DS.length}</p><div class="say"><div id="dk">${kid('n')}</div><div class="bub"><b>${d[1]}</b></div></div><h3 style="margin:.6rem 0">${d[2]}</h3>${o.map(t=>`<button class="neo-btn dso" style="display:block;width:100%;margin:.35rem 0;text-align:left">${t}</button>`).join('')}<div class="fbbar" style="display:none"></div><button class="neo-btn nx" style="display:none;color:var(--primary);margin-top:.5rem">Continuar →</button>`;
+B.querySelectorAll('.dso').forEach(b=>b.onclick=()=>{if(dn)return;dn=1;const ok=b.textContent==d[3],fb=B.querySelector('.fbbar');B.querySelector('#dk').innerHTML=kid(ok?'h':'s');fb.style.display='block';fb.className='fbbar '+(ok?'ok':'no');
+if(ok){xp+=10;snd('ok')}else{hp--;snd('no')}fb.innerHTML=ok?'✓ Muito bem! +10 XP':`✕ Correta: <b>${d[3]}</b><br><small>Dica: ${d[5]}</small>`;const n=B.querySelector('.nx');n.style.display='';n.onclick=()=>{i++;rd()}})};rd()}
+E('tW').insertAdjacentHTML('afterend','<button class="neo-btn" id="tD">🗣️ Direct speech</button>');E('exW').insertAdjacentHTML('afterend','<div class="neo-card" style="padding:1rem;display:none" id="exD"></div>');
+const TB=[['tM','exM'],['tW','exW'],['tD','exD']];TB.forEach(([t,x])=>E(t).addEventListener('click',()=>TB.forEach(([t2,x2])=>{E(x2).style.display=x2==x?'':'none';E(t2).classList.toggle('is-active',t2==x)})));exD();
+
+/* ---------- FÍSICA: laboratório livre com movimento ---------- */
+const svgB='style="width:100%;touch-action:none;background:var(--inset-bg);border-radius:14px;margin:.5rem 0"';
+E('lab').closest('section').insertAdjacentHTML('afterend',
+sec('🧪','Laboratório livre 2.0 (movimento)','Crie cargas livres ou fixas ⚓, solte e veja órbitas, repulsão e neutralização',`<div class="neo-card" style="padding:.8rem"><div class="filter-pills" id="sbB"><button class="neo-btn" data-a="4">+ livre</button><button class="neo-btn" data-a="-4">− livre</button><button class="neo-btn" data-a="F4">+ fixa ⚓</button><button class="neo-btn" data-a="F-4">− fixa ⚓</button><button class="neo-btn" id="sbF">⚓ Fixar/soltar</button><button class="neo-btn" id="sbD">🗑 Remover</button></div><div class="filter-pills"><button class="neo-btn" data-p="orb">🪐 Órbita</button><button class="neo-btn" data-p="cl">💥 Colisão +/−</button><button class="neo-btn" data-p="rep">↔ Repulsão</button><button class="neo-btn" data-p="duo">🧲 Dipolo</button><button class="neo-btn" id="sbP">▶ Simular</button><button class="neo-btn" id="sbX">🧹 Limpar</button></div>${sl('sbq','Carga selecionada (µC)',-8,8,4)}${sl('sbk','Velocidade',1,10,4)}<div class="filter-pills"><label><input type="checkbox" id="sbT" checked> Rastro</label><label><input type="checkbox" id="sbV" checked> Vetores de força</label></div><svg id="sbS" viewBox="0 0 400 260" ${svgB}></svg><div id="sbO" class="neo-inset formula-box"></div></div>`)+
+sec('🧽','Sim: eletrização por atrito','Esfregue e veja os elétrons passarem de um corpo para o outro (conservação da carga)',`<div class="neo-card" style="padding:.8rem">${sl('atn','Elétrons transferidos (µC)',0,10,0)}<svg id="atS" viewBox="0 0 400 130" ${svgB}></svg><div class="filter-pills"><button class="neo-btn" id="atG">✋ Esfregar</button><button class="neo-btn" id="atR">↺ Zerar</button></div><div id="atO" class="neo-inset formula-box"></div></div>`));
+(function(){const S=E('sbS'),PX=.002,M=.05,K=9e9;let P=[],fl=[],sel=-1,run=false,last=0,dg=null,raf=0,ls=0;
+const mk=(x,y,q,f,vx=0,vy=0)=>({x,y,q,f,vx,vy,tr:[]}),rad=p=>9+Math.min(12,Math.abs(p.q)*1.6),col=q=>q>0?'#e11d48':q<0?'#0284c7':'#888';
+const acc=(p,i)=>{let fx=0,fy=0;P.forEach((o,j)=>{if(j==i)return;const dx=p.x-o.x,dy=p.y-o.y,r2=Math.max(dx*dx+dy*dy,400),r=Math.sqrt(r2),f=K*p.q*o.q*1e-12/(r2*PX*PX);fx+=f*dx/r;fy+=f*dy/r});return[fx,fy]};
+const sound=t=>{const n=performance.now();if(n-ls>120){ls=n;snd(t)}};
+function step(dt){const s=dt*E('sbk').value*.012,F=P.map((p,i)=>acc(p,i));
+P.forEach((p,i)=>{if(p.f)return;p.vx+=F[i][0]/M/PX*s;p.vy+=F[i][1]/M/PX*s;p.x+=p.vx*s;p.y+=p.vy*s;const r=rad(p);
+if(p.x<r||p.x>400-r){p.x=Math.max(r,Math.min(400-r,p.x));p.vx*=-.9;sound('tick')}if(p.y<r||p.y>260-r){p.y=Math.max(r,Math.min(260-r,p.y));p.vy*=-.9;sound('tick')}
+p.tr.push([p.x|0,p.y|0]);if(p.tr.length>60)p.tr.shift()});
+for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;if(d>=rad(a)+rad(b))continue;
+if(a.q*b.q<0){const f=a.f?a:b.f?b:null,m=f||{x:(a.x+b.x)/2,y:(a.y+b.y)/2,vx:(a.vx+b.vx)/2,vy:(a.vy+b.vy)/2},n=mk(m.x,m.y,a.q+b.q,!!f,f?0:m.vx,f?0:m.vy);fl.push({x:n.x,y:n.y,t:0});P.splice(j,1);P.splice(i,1,n);if(sel>=P.length)sel=-1;sound('zap');syn();return}
+const nx=dx/d,ny=dy/d,vn=(a.vx-b.vx)*nx+(a.vy-b.vy)*ny;if(vn>0){if(!a.f){a.vx-=vn*nx;a.vy-=vn*ny}if(!b.f){b.vx+=vn*nx;b.vy+=vn*ny}sound('tick')}const o=rad(a)+rad(b)-d;if(!a.f){a.x-=nx*o/2;a.y-=ny*o/2}if(!b.f){b.x+=nx*o/2;b.y+=ny*o/2}}
+fl.forEach(f=>f.t+=dt);fl=fl.filter(f=>f.t<.5)}
+function draw(){let h='<defs><marker id="sba" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#7c3aed"/></marker></defs>';
+if(E('sbT').checked)P.forEach(p=>{if(p.tr.length>1)h+=`<polyline points="${p.tr.join(' ')}" fill="none" stroke="${col(p.q)}" stroke-opacity=".4" stroke-width="2"/>`});
+P.forEach((p,i)=>{if(E('sbV').checked){const[fx,fy]=acc(p,i),m=Math.hypot(fx,fy);if(m>1e-9){const L=Math.min(60,8+Math.log10(m+1)*22);h+=`<line x1="${p.x}" y1="${p.y}" x2="${p.x+fx/m*(L+rad(p))}" y2="${p.y+fy/m*(L+rad(p))}" stroke="#7c3aed" stroke-width="3" marker-end="url(#sba)"/>`}}});
+P.forEach((p,i)=>{h+=`<circle cx="${p.x}" cy="${p.y}" r="${rad(p)}" fill="${col(p.q)}" ${i==sel?'stroke="#facc15" stroke-width="3"':''}/><text x="${p.x}" y="${p.y+5}" text-anchor="middle" fill="#fff" font-weight="800" font-size="14">${p.q>0?'+':p.q<0?'−':'0'}</text>${p.f?`<text x="${p.x}" y="${p.y-rad(p)-3}" text-anchor="middle" font-size="11">⚓</text>`:''}`});
+fl.forEach(f=>h+=`<circle cx="${f.x}" cy="${f.y}" r="${10+f.t*120}" fill="none" stroke="#facc15" stroke-width="3" stroke-opacity="${1-f.t*2}"/>`);S.innerHTML=h;
+const tot=P.reduce((s,p)=>s+p.q,0);let t=`Σ carga do sistema = ${fp(tot)} µC (conservação: só muda se você criar/remover carga)`;const p=P[sel];
+if(p){const[fx,fy]=acc(p,sel);t+=`\nSelecionada: ${p.q} µC ${p.f?'(fixa)':'(livre)'} · F = ${ee(Math.hypot(fx,fy))} N · a = F/m = ${fp(Math.hypot(fx,fy)/M)} m/s² (m = 50 g)`}E('sbO').textContent=t}
+function syn(){const p=P[sel];if(p){E('sbq').value=p.q;E('sbqv').textContent=p.q}}
+const tick=t=>{if(!run)return;step(Math.min(.033,(t-last)/1000||.016));last=t;draw();raf=requestAnimationFrame(tick)},go=v=>{run=v;E('sbP').textContent=v?'⏸ Pausar':'▶ Simular';cancelAnimationFrame(raf);if(v){last=performance.now();raf=requestAnimationFrame(tick)}else draw()};
+document.querySelectorAll('#sbB [data-a]').forEach(b=>b.onclick=()=>{let a=b.dataset.a,f=0;if(a[0]=='F'){f=1;a=a.slice(1)}if(P.length>=10)return;P.push(mk(60+Math.random()*280,40+Math.random()*180,+a,f));sel=P.length-1;syn();snd('pop');draw()});
+E('sbF').onclick=()=>{const p=P[sel];if(p){p.f=!p.f;p.vx=p.vy=0;snd('pop');draw()}};E('sbD').onclick=()=>{if(sel>=0){P.splice(sel,1);sel=-1;draw()}};E('sbX').onclick=()=>{P=[];sel=-1;go(false)};E('sbP').onclick=()=>go(!run);
+E('sbq').oninput=()=>{E('sbqv').textContent=E('sbq').value;if(P[sel])P[sel].q=+E('sbq').value;draw()};E('sbk').oninput=()=>E('sbkv').textContent=E('sbk').value;E('sbT').onchange=E('sbV').onchange=draw;
+const PS={orb:()=>{const R=80,a=K*8e-6*2e-6/((R*PX)**2)/M/PX;return[mk(200,130,8,1),mk(200,130-R,-2,0,Math.sqrt(a*R),0)]},cl:()=>[mk(70,130,5,0),mk(330,130,-5,0)],rep:()=>[mk(150,130,4,0),mk(250,130,4,0)],duo:()=>[mk(120,130,6,1),mk(280,130,-6,1),mk(200,60,1,0)]};
+document.querySelectorAll('[data-p]').forEach(b=>{if(PS[b.dataset.p])b.onclick=()=>{P=PS[b.dataset.p]();sel=-1;snd('pop');go(true)}});
+const pt=e=>{const q=S.createSVGPoint();q.x=e.clientX;q.y=e.clientY;return q.matrixTransform(S.getScreenCTM().inverse())};
+S.onpointerdown=e=>{const q=pt(e);let b=-1,bd=1e9;P.forEach((p,i)=>{const d=Math.hypot(p.x-q.x,p.y-q.y);if(d<rad(p)+10&&d<bd){bd=d;b=i}});sel=b;dg=b>=0?P[b]:null;if(dg){S.setPointerCapture(e.pointerId);dg.vx=dg.vy=0;dg.tr=[]}syn();draw()};
+S.onpointermove=e=>{if(!dg)return;const q=pt(e);dg.x=Math.max(10,Math.min(390,q.x));dg.y=Math.max(10,Math.min(250,q.y));if(!run)draw()};S.onpointerup=()=>dg=null;
+P=PS.duo();sel=2;syn();draw()})();
+(function(){let n=0;const S=E('atS'),dr=()=>{n=+E('atn').value;E('atnv').textContent=n;let a='',b='';for(let i=0;i<n;i++){a+=`<text x="${60+(i%5)*22}" y="${60+Math.floor(i/5)*22}" fill="#e11d48" font-weight="800" font-size="18">+</text>`;b+=`<text x="${250+(i%5)*22}" y="${60+Math.floor(i/5)*22}" fill="#0284c7" font-weight="800" font-size="18">−</text>`}
+S.innerHTML=`<rect x="40" y="25" width="130" height="80" rx="14" fill="var(--surface)" stroke="#e11d48" stroke-width="3"/><rect x="230" y="25" width="130" height="80" rx="14" fill="var(--surface)" stroke="#0284c7" stroke-width="3"/>${a}${b}<text x="105" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">Pano (perde e⁻)</text><text x="295" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">Bastão (ganha e⁻)</text><text x="200" y="70" text-anchor="middle" font-size="22" fill="var(--text)">${n?'→':''}</text>`;
+E('atO').textContent=`Pano = +${n} µC · Bastão = −${n} µC → soma = 0 (carga conservada; atrito gera sinais opostos e mesmo módulo)`};E('atn').oninput=dr;E('atG').onclick=()=>{const v=Math.min(10,+E('atn').value+1);E('atn').value=v;snd(v>=10?'zap':'tick');dr()};E('atR').onclick=()=>{E('atn').value=0;dr()};dr()})();
+
+/* ---------- EXAME (normal) + ATIVIDADE INTERATIVA ---------- */
+const TOP=['Carga','Quantização','Atrito','Contato','Esferas idênticas','Coulomb','Coulomb','Coulomb','Campo','Campo','Potencial','Trabalho','Campo uniforme','Linhas de campo','Potencial'];
+const mkq=()=>PV.map((q,k)=>({t:q[0],c:q[1],o:sh([q[1],...q[2]]),e:ex(q),tp:TOP[k]}));
+const S2=(h,lab,a,b,v,s,fn)=>{h.innerHTML=`<label style="font-size:.8rem;font-weight:700">${lab}: <b></b><input type="range" min="${a}" max="${b}" step="${s}" value="${v}" style="width:100%"></label><div class="neo-inset formula-box"></div>`;const r=h.querySelector('input'),bb=h.querySelector('b'),o=h.querySelector('.formula-box'),u=()=>{bb.textContent=r.value;o.textContent=fn(+r.value)};r.oninput=u;u()};
+const SCN=[
+h=>{let p=5,e=5;const u=()=>{h.innerHTML=`<div style="font-size:1.2rem">${'🔴'.repeat(p)} <small>prótons</small><br>${'🔵'.repeat(e)} <small>elétrons</small></div><div class="filter-pills">${['p+','p−','e+','e−'].map(x=>`<button class="neo-btn" data-d="${x}">${x[0]=='p'?'próton':'elétron'} ${x[1]}</button>`).join('')}</div><div class="neo-inset formula-box">carga = (${p} − ${e})·e = ${p-e}·e ${p==e?'→ NEUTRO (soma zero)':'→ carregado'}</div>`;h.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const d=b.dataset.d,v=d[1]=='+'?1:-1;if(d[0]=='p')p=Math.max(0,Math.min(8,p+v));else e=Math.max(0,Math.min(8,e+v));snd('pop');u()})};u()},
+h=>S2(h,'Nº de elétrons em excesso n',1,10,3,1,n=>`Q = n·e = ${n} · 1,6·10⁻¹⁹ = ${fp(n*1.6)}·10⁻¹⁹ C (sempre múltiplo de e)`),
+h=>S2(h,'Carga de um dos corpos (µC)',-10,10,5,1,v=>`Corpo 1 = ${v} µC → corpo 2 = ${-v} µC (atrito: sinais opostos, soma 0)`),
+h=>{h.innerHTML=`<div class="filter-pills">${[['Atrito','um fica + e o outro − (opostos)'],['Contato','os dois ficam com o MESMO sinal'],['Indução','o induzido fica com sinal OPOSTO ao do indutor']].map(([a,b])=>`<button class="neo-btn" data-t="${b}">${a}</button>`).join('')}</div><div class="neo-inset formula-box">Toque num processo para ver o resultado</div>`;h.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{h.querySelector('.formula-box').textContent=b.dataset.t;snd('pop')})},
+h=>{let s=[5,-7,4];const PR=[['A toca B',0,1],['A toca C',0,2],['B toca C',1,2]],u=()=>{h.innerHTML=`<div class="neo-inset formula-box">A = ${fp(s[0])}q   B = ${fp(s[1])}q   C = ${fp(s[2])}q</div><div class="filter-pills">${PR.map((a,k)=>`<button class="neo-btn" data-k="${k}">${a[0]}</button>`).join('')}<button class="neo-btn" data-k="r">↺</button></div>`;h.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(k=='r')s=[5,-7,4];else{const[,i,j]=PR[k];s[i]=s[j]=(s[i]+s[j])/2}snd('pop');u()})};u()},
+h=>S2(h,'q₂ (em unidades de q)',1,20,10,1,v=>`F de 2 sobre 1 = F de 1 sobre 2 = k·2q·${v}q/d² → razão = 1 (ação e reação)`),
+h=>S2(h,'Distância d (cm), começa em 40',10,80,40,5,v=>`F/F₀ = (40/${v})² = ${fp((40/v)**2)}`),
+h=>S2(h,'Distância d (cm)',10,100,50,5,v=>`F = k·4µ·12µ/d² = ${fp(9e9*4e-6*12e-6/(v/100)**2)} N`),
+h=>S2(h,'Campo E (N/C)',1000,20000,3000,500,v=>`F = q·E = 4·10⁻³ · ${v} = ${fp(4e-3*v)} N`),
+h=>S2(h,'Distância d (cm)',10,100,50,5,v=>`E = kQ/d² = ${ee(9e9*8e-6/(v/100)**2)} N/C`),
+h=>S2(h,'Distância d (cm)',10,100,40,5,v=>`V = kQ/d = ${ee(9e9*4.8e-6/(v/100))} V`),
+h=>S2(h,'V_B (volts), V_A = 200 V',0,200,120,10,v=>`W = q(V_A − V_B) = 2µ · ${200-v} = ${ee(2e-6*(200-v))} J`),
+h=>{h.innerHTML=`<svg viewBox="0 0 400 100" style="width:100%"><rect x="20" y="5" width="8" height="90" fill="#e11d48"/><rect x="372" y="5" width="8" height="90" fill="#0284c7"/>${[25,50,75].map(y=>`<line x1="40" y1="${y}" x2="345" y2="${y}" stroke="#d97706" stroke-width="2"/><path d="M352 ${y}l-10-5v10z" fill="#d97706"/>`).join('')}<circle id="sp" cx="120" cy="50" r="10" fill="#e11d48"/><text x="120" y="55" text-anchor="middle" fill="#fff" font-weight="800">+</text></svg><div class="filter-pills"><button class="neo-btn">▶ Soltar a carga +</button></div>`;const c=h.querySelector('#sp'),t=c.nextElementSibling;h.querySelector('button').onclick=()=>{snd('whoosh');tween(120,340,1200,v=>{c.setAttribute('cx',v);t.setAttribute('x',v)})}},
+h=>{let s=-1;const u=()=>{let L='';for(let k=0;k<8;k++){const a=k*Math.PI/4,c=Math.cos(a),n=Math.sin(a),x=200+c*62,y=60+n*62,tx=x+s*c*8,ty=y+s*n*8,bx=x-s*c*5,by=y-s*n*5;L+=`<line x1="${200+c*26}" y1="${60+n*26}" x2="${200+c*95}" y2="${60+n*95}" stroke="#d97706" stroke-width="2"/><path d="M${tx} ${ty}L${bx-n*5} ${by+c*5}L${bx+n*5} ${by-c*5}z" fill="#d97706"/>`}
+h.innerHTML=`<svg viewBox="0 0 400 120" style="width:100%">${L}<circle cx="200" cy="60" r="20" fill="${s>0?'#e11d48':'#0284c7'}"/><text x="200" y="67" text-anchor="middle" fill="#fff" font-weight="800" font-size="20">${s>0?'+':'−'}</text></svg><div class="filter-pills"><button class="neo-btn">Trocar sinal de Q</button></div><div class="neo-inset formula-box">Q ${s>0?'positiva: linhas SAEM':'negativa: linhas CHEGAM'}</div>`;h.querySelector('button').onclick=()=>{s=-s;snd('pop');u()}};u()},
+h=>S2(h,'Q (µC), d = 30 cm',-10,10,4,1,Q=>`V = kQ/d = ${ee(9e9*Q*1e-6/.3)} V (escalar: um número com sinal)\nE = ${ee(Math.abs(9e9*Q*1e-6/.09))} N/C (vetor: aponta ${Q>0?'para fora':Q<0?'para dentro':'—'})`)];
+E('view-fisica').insertAdjacentHTML('beforeend',sec('🎓','Exame e atividade (baseados nas 15 questões)','Normal: cronometrado, sem ajuda · Interativa: experimente cada situação antes de responder',`<div class="filter-pills" style="margin-bottom:.6rem"><button class="neo-btn is-active" id="xT1">📋 Exame normal</button><button class="neo-btn" id="xT2">🎮 Atividade interativa</button></div><div class="neo-card" style="padding:1rem" id="xN"></div><div class="neo-card" style="padding:1rem;display:none" id="xI"></div>`));
+E('xT1').onclick=()=>{E('xN').style.display='';E('xI').style.display='none';E('xT1').classList.add('is-active');E('xT2').classList.remove('is-active')};E('xT2').onclick=()=>{E('xI').style.display='';E('xN').style.display='none';E('xT2').classList.add('is-active');E('xT1').classList.remove('is-active')};
+function exN(){const B=E('xN'),Q=mkq(),A=Q.map(()=>-1);let i=0,T=1800;clearInterval(window._xt);const tf=()=>Math.floor(T/60)+':'+String(T%60).padStart(2,'0'),ok=k=>A[k]>=0&&Q[k].o[A[k]]==Q[k].c;
+const end=()=>{clearInterval(window._xt);const n=Q.filter((q,k)=>ok(k)).length,tp={};Q.forEach((q,k)=>{const t=tp[q.tp]=tp[q.tp]||[0,0];t[1]++;if(ok(k))t[0]++});snd(n>=9?'win':'no');
+B.innerHTML=sayK(n>=9?'h':'s',`<h3>Nota: ${n}/15 (${Math.round(n/15*100)}%)</h3>${n>=12?'Excelente!':n>=9?'Bom! Revise os erros abaixo.':'Revise os cards e faça a atividade interativa.'}`)+`<h4 style="margin:.6rem 0">Por assunto</h4>`+Object.entries(tp).map(([k,v])=>`<div>${k}: <b>${v[0]}/${v[1]}</b></div>`).join('')+`<h4 style="margin:.8rem 0 .3rem">Gabarito comentado</h4>`+Q.map((q,k)=>`<div class="neo-inset" style="padding:.6rem;margin:.4rem 0;border-radius:12px"><b>${k+1}. ${ok(k)?'✅':'❌'} ${q.t}</b><div style="font-size:.8rem">Correta: <b>${q.c}</b>${A[k]<0?' · (em branco)':!ok(k)?' · Você: '+q.o[A[k]]:''}</div><div style="font-size:.78rem;color:var(--muted)">💡 ${q.e}</div></div>`).join('')+'<button class="neo-btn rs">↺ Refazer exame</button>';B.querySelector('.rs').onclick=exN};
+const rd=()=>{const q=Q[i];B.innerHTML=`<div style="display:flex;justify-content:space-between;font-weight:800"><span>Questão ${i+1}/15</span><span id="xT">⏱ ${tf()}</span></div><div class="filter-pills" style="margin:.5rem 0">${Q.map((_,k)=>`<button class="neo-btn xch ${k==i?'on':''} ${A[k]>=0?'dn':''}" data-k="${k}">${k+1}</button>`).join('')}</div><h3>${q.t}</h3>${q.o.map((t,k)=>`<button class="neo-btn xo ${A[i]==k?'is-active':''}" data-k="${k}" style="display:block;width:100%;margin:.35rem 0;text-align:left">${t}</button>`).join('')}<div style="display:flex;gap:.5rem;margin-top:.6rem"><button class="neo-btn xp">◀</button><button class="neo-btn xn">▶</button><button class="neo-btn xe" style="flex:1;color:var(--primary)">Entregar exame</button></div>`;
+B.querySelectorAll('.xch').forEach(b=>b.onclick=()=>{i=+b.dataset.k;rd()});B.querySelectorAll('.xo').forEach(b=>b.onclick=()=>{A[i]=+b.dataset.k;snd('pop');rd()});B.querySelector('.xp').onclick=()=>{i=Math.max(0,i-1);rd()};B.querySelector('.xn').onclick=()=>{i=Math.min(14,i+1);rd()};B.querySelector('.xe').onclick=end};
+window._xt=setInterval(()=>{T--;const t=E('xT');if(t)t.textContent='⏱ '+tf();if(T<=0)end()},1000);rd()}
+function exI(){const B=E('xI'),Q=mkq();let i=0,hp=5,xp=0,pk=-1,dn=0;
+const rd=()=>{if(i>=15||hp<=0){snd(hp<=0?'no':'win');B.innerHTML=sayK(hp<=0?'s':'h',`<h3>${hp<=0?'Acabaram as vidas':'🎉 Atividade concluída!'}</h3>⭐ ${xp} XP · ${i} estações`)+'<button class="neo-btn rs">Recomeçar</button>';B.querySelector('.rs').onclick=exI;return}
+dn=0;pk=-1;const q=Q[i];B.innerHTML=`<div class="pbar"><i style="width:${i/15*100}%"></i></div><p style="font-size:.8rem;font-weight:800">❤️ ${hp} · ⭐ ${xp} XP · estação ${i+1}/15 · ${q.tp}</p><h3>${q.t}</h3><div id="xs" class="neo-inset" style="padding:.7rem;border-radius:14px;margin:.5rem 0"></div><p style="font-size:.75rem;font-weight:800;color:var(--muted)">Mexa na simulação e escolha a resposta:</p>${q.o.map(t=>`<button class="neo-btn xo" style="display:block;width:100%;margin:.35rem 0;text-align:left">${t}</button>`).join('')}<div class="fbbar" style="display:none"></div><button class="neo-btn main" style="margin-top:.5rem;color:var(--primary)">Verificar</button>`;SCN[i](B.querySelector('#xs'));
+B.querySelectorAll('.xo').forEach((b,k)=>b.onclick=()=>{if(dn)return;pk=k;B.querySelectorAll('.xo').forEach((o,j)=>o.classList.toggle('is-active',j==k));snd('pop')});
+const m=B.querySelector('.main');m.onclick=()=>{if(dn){i++;rd();return}if(pk<0)return;dn=1;const g=q.o[pk]==q.c,fb=B.querySelector('.fbbar');fb.style.display='block';fb.className='fbbar '+(g?'ok':'no');if(g){xp+=10;snd('ok')}else{hp--;snd('no')}fb.innerHTML=sayK(g?'h':'s',(g?'✓ Isso! +10 XP':'✕ Correta: <b>'+q.c+'</b>')+'<br><small>'+q.e+'</small>');m.textContent='Continuar →'}};rd()}
+exN();exI();
+})();
+
+/* dicionário flutuante: minimiza / maximiza / fecha */
+(function(){const E=id=>document.getElementById(id),sec=E('dq').closest('section'),box=document.createElement('div');
+const css=document.createElement('style');css.textContent='#dkF{position:fixed;right:12px;bottom:70px;z-index:61;width:46px;height:46px;border-radius:50%;padding:0}#dkP{position:fixed;right:10px;bottom:70px;z-index:62;width:min(94vw,380px);background:var(--surface);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none;flex-direction:column;overflow:hidden}#dkP.on{display:flex}#dkP .dh{display:flex;align-items:center;gap:.4rem;padding:.5rem .7rem;font-weight:800}#dkP .dh span{flex:1}#dkP .db{padding:.2rem .7rem .8rem;overflow:auto;height:42vh}#dkP.min .db{display:none}#dkP.max{width:96vw;right:2vw;bottom:10px}#dkP.max .db{height:72vh}';document.head.appendChild(css);
+box.id='dkP';box.innerHTML='<div class="dh"><span>📚 Dicionário</span><button class="neo-btn" id="dkM" title="Minimizar">—</button><button class="neo-btn" id="dkX" title="Maximizar">⛶</button><button class="neo-btn" id="dkC" title="Fechar">✕</button></div><div class="db"></div>';document.body.appendChild(box);
+document.body.insertAdjacentHTML('beforeend','<button id="dkF" class="neo-btn" title="Abrir dicionário">📚</button>');
+const db=box.querySelector('.db');db.appendChild(E('dq'));db.appendChild(E('dl'));sec.style.display='none';
+const F=E('dkF'),open=v=>{box.classList.toggle('on',v);F.style.display=v?'none':''};
+F.onclick=()=>{box.classList.remove('min');open(true)};E('dkC').onclick=()=>open(false);
+E('dkM').onclick=()=>{box.classList.toggle('min');box.classList.remove('max')};E('dkX').onclick=()=>{box.classList.remove('min');box.classList.toggle('max')}})();
+</script>
 </body>
 </html>
